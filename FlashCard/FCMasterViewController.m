@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#import <Parse/Parse.h>
 #import "FCMasterViewController.h"
 
 #import "FCDetailViewController.h"
@@ -45,13 +46,101 @@
 
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject)];
     self.navigationItem.rightBarButtonItem = addButton;
+    
+    if ([PFUser currentUser]) [self syncWithWebService];
+    
+    NSError* error = nil;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		exit(-1);  // Fail
+	}
+}
+
+- (void) syncWithWebService
+{
+    NSAssert([PFUser currentUser], @"No logined user");
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    //NSString* lang = [defaults stringForKey:@"lang"];
+    //if (lang == nil) lang = @"es";
+    NSDate* lastUpdatedAt = [defaults objectForKey:@"lastUpdatedAt"];
+    if (lastUpdatedAt == nil) lastUpdatedAt = [NSDate distantPast];
+
+    PFQuery *query = [PFQuery queryWithClassName:@"Entry"];
+    [query whereKey:@"updatedAt" greaterThan:lastUpdatedAt];
+    // Use "paged-index" to fetch all - 
+    //  http://engineering.linkedin.com/voldemort/voldemort-collections-iterating-over-key-value-store
+    query.limit = 1000; // TODO: ???
+    [query findObjectsInBackgroundWithBlock:^(NSArray *remoteEntries, NSError *error) {
+        if (!error) {
+            NSLog(@"Remote entries: %d", remoteEntries.count);
+            if ([remoteEntries count] == 0) return;
+    
+            NSArray *arrayOfIds = [remoteEntries valueForKey:@"objectId"]; // NSString* ?
+            
+            NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName: @"Entry"];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"objectId IN %@", arrayOfIds];            
+            [fetchRequest setPredicate:predicate];
+            [fetchRequest setSortDescriptors:[NSArray arrayWithObject:
+                                              [NSSortDescriptor sortDescriptorWithKey:@"objectId" ascending:YES]]];
+            __block NSArray *localEntries = nil;
+            NSError *error = nil;
+            localEntries = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+            NSLog(@"Local entries: %d", localEntries.count);
+
+            int currentIndex = 0;
+            
+            for (PFObject *remoteEntry in remoteEntries) {
+                NSManagedObject *localEntry = nil;
+                if ([localEntries count] > currentIndex) {
+                    localEntry = [localEntries objectAtIndex:currentIndex];
+                    
+                    NSString * objectId = [localEntry valueForKey:@"objectId"];
+                    if ([objectId isEqualToString: [remoteEntry valueForKey:@"objectId"]]) {
+                        NSLog(@"Update: %@", objectId);
+                        [localEntry setValue:remoteEntry.updatedAt forKey:@"updatedAt"];
+                        [localEntry setValue:[remoteEntry objectForKey:@"lookups"] forKey:@"lookups"];
+                    }
+                } else {
+                    NSManagedObject *newLocalEntry = [NSEntityDescription insertNewObjectForEntityForName:@"Entry"       
+                                                                              inManagedObjectContext:self.managedObjectContext];
+
+                    [newLocalEntry setValue:remoteEntry.createdAt forKey:@"createdAt"];
+                    [newLocalEntry setValue:remoteEntry.updatedAt forKey:@"updatedAt"];
+                    [newLocalEntry setValue:remoteEntry.objectId  forKey:@"objectId"];
+                    
+                    for (id key in [remoteEntry allKeys]) {
+                        if (![key isEqualToString:@"user"]) {
+                            NSObject *value = [remoteEntry objectForKey:key];
+                            [newLocalEntry setValue:value forKey:key];
+                        }
+                    }
+                }
+                currentIndex ++;
+            }
+
+            if (![self.managedObjectContext save:&error]) {
+                NSLog(@"Error in adding a new bank %@, %@", error, [error userInfo]);
+                abort();
+            } 
+            
+            NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];            
+            [defaults setObject:[NSDate date] forKey:@"lastUpdatedAt"];
+
+        } else {
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+}
+
+- (void)loadEntriesFromCoreData
+{
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    __fetchedResultsController = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -62,11 +151,17 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"SDSyncEngineSyncCompleted" object:nil queue:nil usingBlock:^(NSNotification *note) {
+        [self loadEntriesFromCoreData];
+        [self.tableView reloadData];
+    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SDSyncEngineSyncCompleted" object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -156,14 +251,14 @@
     // Create the fetch request for the entity.
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     // Edit the entity name as appropriate.
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Event" inManagedObjectContext:self.managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Entry" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
     
     // Set the batch size to a suitable number.
     [fetchRequest setFetchBatchSize:20];
     
     // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timeStamp" ascending:NO];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"updatedAt" ascending:NO];
     NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
     
     [fetchRequest setSortDescriptors:sortDescriptors];
@@ -184,7 +279,7 @@
 	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 	    abort();
 	}
-    
+
     return __fetchedResultsController;
 }    
 
@@ -251,7 +346,7 @@
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     NSManagedObject *managedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [[managedObject valueForKey:@"timeStamp"] description];
+    cell.textLabel.text = [managedObject valueForKey:@"word"];
 }
 
 - (void)insertNewObject
@@ -263,7 +358,7 @@
     
     // If appropriate, configure the new managed object.
     // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-    [newManagedObject setValue:[NSDate date] forKey:@"timeStamp"];
+    //[newManagedObject setValue:[NSDate date] forKey:@"timeStamp"];
     
     // Save the context.
     NSError *error = nil;

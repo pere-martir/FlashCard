@@ -6,9 +6,11 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#import <Parse/Parse.h>
 #import "FCAppDelegate.h"
 
 #import "FCMasterViewController.h"
+#import "FCSplitViewController.h"
 
 @implementation FCAppDelegate
 
@@ -19,14 +21,17 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [Parse setApplicationId:@"xvt7zz08Ye9MFDn7OIVJ91IPOlU9LaOr4fJgqgS6"
+                  clientKey:@"sROhLgPK3LPOTIznObv1cTkavgEN0wwodZSoXBQ6"];
+    //[PFUser logOut];
     // Override point for customization after application launch.
-    UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
+    FCSplitViewController *splitViewController = (FCSplitViewController *)self.window.rootViewController;
     UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
     splitViewController.delegate = (id)navigationController.topViewController;
-
+    
     UINavigationController *masterNavigationController = [splitViewController.viewControllers objectAtIndex:0];
     FCMasterViewController *controller = (FCMasterViewController *)masterNavigationController.topViewController;
-    controller.managedObjectContext = self.managedObjectContext;
+    controller.managedObjectContext = self.managedObjectContext; 
     return YES;
 }
 							
@@ -44,6 +49,7 @@
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
      If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
      */
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

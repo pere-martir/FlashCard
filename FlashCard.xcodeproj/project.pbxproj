@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6803E5B015F5D5F4003D790C /* FCSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6803E5AF15F5D5F4003D790C /* FCSplitViewController.m */; };
 		68A2AC5215F36697009678FF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2AC5115F36697009678FF /* UIKit.framework */; };
 		68A2AC5415F36697009678FF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2AC5315F36697009678FF /* Foundation.framework */; };
 		68A2AC5615F36697009678FF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2AC5515F36697009678FF /* CoreGraphics.framework */; };
@@ -24,6 +25,18 @@
 		68A2AC7B15F36697009678FF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2AC5715F36697009678FF /* CoreData.framework */; };
 		68A2AC8315F36697009678FF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 68A2AC8115F36697009678FF /* InfoPlist.strings */; };
 		68A2AC8615F36697009678FF /* FlashCardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 68A2AC8515F36697009678FF /* FlashCardTests.m */; };
+		68A2AC9915F43FE9009678FF /* Entry.m in Sources */ = {isa = PBXBuildFile; fileRef = 68A2AC9815F43FE9009678FF /* Entry.m */; };
+		68A2AC9C15F497FB009678FF /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2AC9B15F497FB009678FF /* Parse.framework */; };
+		68A2AC9E15F49844009678FF /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2AC9D15F49844009678FF /* AudioToolbox.framework */; };
+		68A2ACA015F49850009678FF /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2AC9F15F49850009678FF /* CFNetwork.framework */; };
+		68A2ACA215F4986D009678FF /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2ACA115F4986D009678FF /* libsqlite3.dylib */; };
+		68A2ACA415F4987B009678FF /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2ACA315F4987B009678FF /* libz.1.1.3.dylib */; };
+		68A2ACA615F49886009678FF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2ACA515F49886009678FF /* QuartzCore.framework */; };
+		68A2ACA815F4988D009678FF /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2ACA715F4988D009678FF /* Security.framework */; };
+		68A2ACAA15F49894009678FF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2ACA915F49894009678FF /* StoreKit.framework */; };
+		68A2ACAC15F4989B009678FF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2ACAB15F4989B009678FF /* SystemConfiguration.framework */; };
+		68A2ACF215F49E6C009678FF /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2ACF115F49E6C009678FF /* MobileCoreServices.framework */; };
+		68A2ACFA15F58C59009678FF /* DefaultSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68A2ACF915F58C59009678FF /* DefaultSettingsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,29 +50,45 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6803E5AE15F5D5F4003D790C /* FCSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCSplitViewController.h; sourceTree = "<group>"; };
+		6803E5AF15F5D5F4003D790C /* FCSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCSplitViewController.m; sourceTree = "<group>"; };
 		68A2AC4D15F36696009678FF /* FlashCard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlashCard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68A2AC5115F36697009678FF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		68A2AC5315F36697009678FF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		68A2AC5515F36697009678FF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		68A2AC5715F36697009678FF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		68A2AC5B15F36697009678FF /* FlashCard-Info.plist */ = {isa = PBXFileReference; path = "FlashCard-Info.plist"; sourceTree = "<group>"; };
+		68A2AC5B15F36697009678FF /* FlashCard-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FlashCard-Info.plist"; sourceTree = "<group>"; };
 		68A2AC5D15F36697009678FF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		68A2AC5F15F36697009678FF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		68A2AC6115F36697009678FF /* FlashCard-Prefix.pch */ = {isa = PBXFileReference; path = "FlashCard-Prefix.pch"; sourceTree = "<group>"; };
-		68A2AC6215F36697009678FF /* FCAppDelegate.h */ = {isa = PBXFileReference; path = FCAppDelegate.h; sourceTree = "<group>"; };
+		68A2AC6115F36697009678FF /* FlashCard-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FlashCard-Prefix.pch"; sourceTree = "<group>"; };
+		68A2AC6215F36697009678FF /* FCAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FCAppDelegate.h; sourceTree = "<group>"; };
 		68A2AC6315F36697009678FF /* FCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FCAppDelegate.m; sourceTree = "<group>"; };
 		68A2AC6615F36697009678FF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		68A2AC6915F36697009678FF /* FlashCard.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FlashCard.xcdatamodel; sourceTree = "<group>"; };
-		68A2AC6B15F36697009678FF /* FCMasterViewController.h */ = {isa = PBXFileReference; path = FCMasterViewController.h; sourceTree = "<group>"; };
+		68A2AC6B15F36697009678FF /* FCMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FCMasterViewController.h; sourceTree = "<group>"; };
 		68A2AC6C15F36697009678FF /* FCMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FCMasterViewController.m; sourceTree = "<group>"; };
-		68A2AC6E15F36697009678FF /* FCDetailViewController.h */ = {isa = PBXFileReference; path = FCDetailViewController.h; sourceTree = "<group>"; };
+		68A2AC6E15F36697009678FF /* FCDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FCDetailViewController.h; sourceTree = "<group>"; };
 		68A2AC6F15F36697009678FF /* FCDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FCDetailViewController.m; sourceTree = "<group>"; };
 		68A2AC7615F36697009678FF /* FlashCardTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlashCardTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		68A2AC7715F36697009678FF /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		68A2AC8015F36697009678FF /* FlashCardTests-Info.plist */ = {isa = PBXFileReference; path = "FlashCardTests-Info.plist"; sourceTree = "<group>"; };
+		68A2AC8015F36697009678FF /* FlashCardTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FlashCardTests-Info.plist"; sourceTree = "<group>"; };
 		68A2AC8215F36697009678FF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		68A2AC8415F36697009678FF /* FlashCardTests.h */ = {isa = PBXFileReference; path = FlashCardTests.h; sourceTree = "<group>"; };
+		68A2AC8415F36697009678FF /* FlashCardTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlashCardTests.h; sourceTree = "<group>"; };
 		68A2AC8515F36697009678FF /* FlashCardTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlashCardTests.m; sourceTree = "<group>"; };
+		68A2AC9715F43FE9009678FF /* Entry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entry.h; sourceTree = "<group>"; };
+		68A2AC9815F43FE9009678FF /* Entry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entry.m; sourceTree = "<group>"; };
+		68A2AC9B15F497FB009678FF /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		68A2AC9D15F49844009678FF /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		68A2AC9F15F49850009678FF /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		68A2ACA115F4986D009678FF /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		68A2ACA315F4987B009678FF /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = usr/lib/libz.1.1.3.dylib; sourceTree = SDKROOT; };
+		68A2ACA515F49886009678FF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		68A2ACA715F4988D009678FF /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		68A2ACA915F49894009678FF /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		68A2ACAB15F4989B009678FF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		68A2ACF115F49E6C009678FF /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		68A2ACF815F58C45009678FF /* DefaultSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultSettingsViewController.h; sourceTree = "<group>"; };
+		68A2ACF915F58C59009678FF /* DefaultSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultSettingsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,10 +96,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68A2ACF215F49E6C009678FF /* MobileCoreServices.framework in Frameworks */,
+				68A2ACAC15F4989B009678FF /* SystemConfiguration.framework in Frameworks */,
+				68A2ACAA15F49894009678FF /* StoreKit.framework in Frameworks */,
+				68A2ACA815F4988D009678FF /* Security.framework in Frameworks */,
+				68A2ACA615F49886009678FF /* QuartzCore.framework in Frameworks */,
+				68A2ACA415F4987B009678FF /* libz.1.1.3.dylib in Frameworks */,
+				68A2ACA215F4986D009678FF /* libsqlite3.dylib in Frameworks */,
+				68A2AC5615F36697009678FF /* CoreGraphics.framework in Frameworks */,
+				68A2ACA015F49850009678FF /* CFNetwork.framework in Frameworks */,
+				68A2AC9E15F49844009678FF /* AudioToolbox.framework in Frameworks */,
 				68A2AC5215F36697009678FF /* UIKit.framework in Frameworks */,
 				68A2AC5415F36697009678FF /* Foundation.framework in Frameworks */,
-				68A2AC5615F36697009678FF /* CoreGraphics.framework in Frameworks */,
 				68A2AC5815F36697009678FF /* CoreData.framework in Frameworks */,
+				68A2AC9C15F497FB009678FF /* Parse.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +130,15 @@
 		68A2AC4215F36696009678FF = {
 			isa = PBXGroup;
 			children = (
+				68A2ACF115F49E6C009678FF /* MobileCoreServices.framework */,
+				68A2ACAB15F4989B009678FF /* SystemConfiguration.framework */,
+				68A2ACA915F49894009678FF /* StoreKit.framework */,
+				68A2ACA715F4988D009678FF /* Security.framework */,
+				68A2ACA515F49886009678FF /* QuartzCore.framework */,
+				68A2ACA315F4987B009678FF /* libz.1.1.3.dylib */,
+				68A2ACA115F4986D009678FF /* libsqlite3.dylib */,
+				68A2AC9F15F49850009678FF /* CFNetwork.framework */,
+				68A2AC9D15F49844009678FF /* AudioToolbox.framework */,
 				68A2AC5915F36697009678FF /* FlashCard */,
 				68A2AC7E15F36697009678FF /* FlashCardTests */,
 				68A2AC5015F36696009678FF /* Frameworks */,
@@ -110,6 +158,7 @@
 		68A2AC5015F36696009678FF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				68A2AC9B15F497FB009678FF /* Parse.framework */,
 				68A2AC5115F36697009678FF /* UIKit.framework */,
 				68A2AC5315F36697009678FF /* Foundation.framework */,
 				68A2AC5515F36697009678FF /* CoreGraphics.framework */,
@@ -122,14 +171,20 @@
 		68A2AC5915F36697009678FF /* FlashCard */ = {
 			isa = PBXGroup;
 			children = (
+				68A2ACF915F58C59009678FF /* DefaultSettingsViewController.m */,
+				68A2ACF815F58C45009678FF /* DefaultSettingsViewController.h */,
 				68A2AC6215F36697009678FF /* FCAppDelegate.h */,
 				68A2AC6315F36697009678FF /* FCAppDelegate.m */,
 				68A2AC6515F36697009678FF /* MainStoryboard.storyboard */,
+				6803E5AE15F5D5F4003D790C /* FCSplitViewController.h */,
+				6803E5AF15F5D5F4003D790C /* FCSplitViewController.m */,
 				68A2AC6B15F36697009678FF /* FCMasterViewController.h */,
 				68A2AC6C15F36697009678FF /* FCMasterViewController.m */,
 				68A2AC6E15F36697009678FF /* FCDetailViewController.h */,
 				68A2AC6F15F36697009678FF /* FCDetailViewController.m */,
 				68A2AC6815F36697009678FF /* FlashCard.xcdatamodeld */,
+				68A2AC9715F43FE9009678FF /* Entry.h */,
+				68A2AC9815F43FE9009678FF /* Entry.m */,
 				68A2AC5A15F36697009678FF /* Supporting Files */,
 			);
 			path = FlashCard;
@@ -276,6 +331,9 @@
 				68A2AC6A15F36697009678FF /* FlashCard.xcdatamodeld in Sources */,
 				68A2AC6D15F36697009678FF /* FCMasterViewController.m in Sources */,
 				68A2AC7015F36697009678FF /* FCDetailViewController.m in Sources */,
+				68A2AC9915F43FE9009678FF /* Entry.m in Sources */,
+				68A2ACFA15F58C59009678FF /* DefaultSettingsViewController.m in Sources */,
+				6803E5B015F5D5F4003D790C /* FCSplitViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,7 +389,9 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "Jailbroken Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Jailbroken Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -346,6 +406,9 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CODE_SIGN_FLAGS = "";
+				"PROVISIONING_PROFILE[sdk=*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -357,7 +420,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Jailbroken Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -366,6 +430,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_CODE_SIGN_FLAGS = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
@@ -375,6 +441,12 @@
 		68A2AC8A15F36697009678FF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FlashCard/FlashCard-Prefix.pch";
 				INFOPLIST_FILE = "FlashCard/FlashCard-Info.plist";
@@ -386,6 +458,11 @@
 		68A2AC8B15F36697009678FF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FlashCard/FlashCard-Prefix.pch";
 				INFOPLIST_FILE = "FlashCard/FlashCard-Info.plist";
@@ -447,6 +524,7 @@
 				68A2AC8B15F36697009678FF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		68A2AC8C15F36697009678FF /* Build configuration list for PBXNativeTarget "FlashCardTests" */ = {
 			isa = XCConfigurationList;
@@ -455,6 +533,7 @@
 				68A2AC8E15F36697009678FF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
