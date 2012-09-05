@@ -12,6 +12,7 @@
 		6803E62115F71D4C003D790C /* config.png in Resources */ = {isa = PBXBuildFile; fileRef = 6803E62015F71D4C003D790C /* config.png */; };
 		6803E62415F71F2A003D790C /* ConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6803E62315F71F2A003D790C /* ConfigViewController.m */; };
 		6803E63715F752DB003D790C /* NSDate+RelativeExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6803E63615F752DA003D790C /* NSDate+RelativeExtension.m */; };
+		689DEC0415F789E4007C5F56 /* WR_fbicon_200x200.png in Resources */ = {isa = PBXBuildFile; fileRef = 689DEC0315F789E4007C5F56 /* WR_fbicon_200x200.png */; };
 		68A2AC5215F36697009678FF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2AC5115F36697009678FF /* UIKit.framework */; };
 		68A2AC5415F36697009678FF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2AC5315F36697009678FF /* Foundation.framework */; };
 		68A2AC5615F36697009678FF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2AC5515F36697009678FF /* CoreGraphics.framework */; };
@@ -62,6 +63,7 @@
 		6803E62315F71F2A003D790C /* ConfigViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigViewController.m; sourceTree = "<group>"; };
 		6803E63515F752DA003D790C /* NSDate+RelativeExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+RelativeExtension.h"; sourceTree = "<group>"; };
 		6803E63615F752DA003D790C /* NSDate+RelativeExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+RelativeExtension.m"; sourceTree = "<group>"; };
+		689DEC0315F789E4007C5F56 /* WR_fbicon_200x200.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WR_fbicon_200x200.png; sourceTree = "<group>"; };
 		68A2AC4D15F36696009678FF /* FlashCard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlashCard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68A2AC5115F36697009678FF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		68A2AC5315F36697009678FF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -207,6 +209,7 @@
 		68A2AC5A15F36697009678FF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				689DEC0315F789E4007C5F56 /* WR_fbicon_200x200.png */,
 				6803E62015F71D4C003D790C /* config.png */,
 				6803E61E15F71934003D790C /* es.png */,
 				68A2AC5B15F36697009678FF /* FlashCard-Info.plist */,
@@ -310,6 +313,7 @@
 				68A2AC6715F36697009678FF /* MainStoryboard.storyboard in Resources */,
 				6803E61F15F71934003D790C /* es.png in Resources */,
 				6803E62115F71D4C003D790C /* config.png in Resources */,
+				689DEC0415F789E4007C5F56 /* WR_fbicon_200x200.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

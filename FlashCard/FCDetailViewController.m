@@ -58,6 +58,9 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    _currentTab = 0;
+    self.webView.delegate = self;
+    _tabbar.selectedItem = [_tabbar.items objectAtIndex:_currentTab];
     [self configureView];
 }
 
@@ -65,6 +68,7 @@
 {
     [self setWebView:nil];
     [self setDefinitionView:nil];
+    _tabbar = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -114,15 +118,66 @@
 
 - (void)showDetailOfWord:(NSString*)word ofLanguage:(NSString*)lang
 {
+    _word = [word copy];
+    _lang = [lang copy];
+    if (0 == _currentTab) {
+        [self showEnglishTranslation];
+    } else if (1 == _currentTab) {
+        [self showDefinition];
+    }
+}
+
+- (void)showEnglishTranslation
+{
     NSString *url = nil;
-    if ([lang isEqualToString:@"es"])
-        url = [NSString stringWithFormat:@"http://www.wordreference.com/es/en/translation.asp?spen=%@",word];
-    else if ([lang isEqualToString:@"it"])
-        url = [NSString stringWithFormat:@"http://www.wordreference.com/iten/%@", word];
+    if ([_lang isEqualToString:@"es"])
+        url = [NSString stringWithFormat:@"http://www.wordreference.com/es/en/translation.asp?spen=%@", _word];
+    else if ([_lang isEqualToString:@"it"])
+        url = [NSString stringWithFormat:@"http://www.wordreference.com/iten/%@", _word];
         
     if (url) {
         NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
         [self.webView loadRequest:req];
+    }
+}
+
+- (void)showDefinition
+{
+    NSString *url = nil;
+    if ([_lang isEqualToString:@"es"])
+        url = [NSString stringWithFormat:@"http://www.wordreference.com/definicion/%@", _word];
+    else if ([_lang isEqualToString:@"it"])
+        url = [NSString stringWithFormat:@"http://www.wordreference.com/definizione/%@", _word];
+    
+    if (url) {
+        NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+        [self.webView loadRequest:req];
+    }
+}
+
+
+#pragma mark - UIWebViewDelegate
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+#if 0 // it doesn't work
+    if ([webView respondsToSelector:@selector(scrollView)])
+    {
+        UIScrollView *scroll=[webView scrollView];
+        float zoom = webView.bounds.size.width / scroll.contentSize.width;
+        [scroll setZoomScale:zoom animated:YES];
+    }
+#endif
+}
+
+#pragma mark - UITabBarDelegate
+
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
+    NSInteger tag = item.tag;
+    if (_currentTab != tag) {
+        _currentTab = tag;
+        [self showDetailOfWord:_word ofLanguage:_lang];
     }
 }
 
