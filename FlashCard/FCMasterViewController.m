@@ -8,8 +8,8 @@
 
 #import <Parse/Parse.h>
 #import "FCMasterViewController.h"
-
 #import "FCDetailViewController.h"
+
 
 @interface FCMasterViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
@@ -66,14 +66,14 @@
 
 - (void) setLang:(NSString *)lang
 {
-    _lang = lang;
-    UIImage *flagImage = [UIImage imageNamed:[lang stringByAppendingString:@".tiff"]];
-    _langButton.image = flagImage;    
-    self.title = [_kLangFullNames valueForKey:lang];
-}
-
-- (void)changeLanguage
-{
+    if (![self.lang isEqualToString:lang]) {
+        _lang = lang;
+        NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];            
+        [defaults setObject:_lang forKey:@"lang"];
+        self.fetchedResultsController = nil;
+        self.title = [_kLangFullNames valueForKey:lang];
+        [self.tableView reloadData];
+    }
 }
 
 
@@ -164,7 +164,7 @@
 
 - (void)viewDidUnload
 {
-    _langButton = nil;
+    //_langButton = nil;
     [super viewDidUnload];
     __fetchedResultsController = nil;
 }
@@ -400,6 +400,25 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"config"]) {
+        ConfigViewController *controller = (ConfigViewController *) segue.destinationViewController;
+        controller.delegate = self;
+    }
+}
+
+- (void)configViewDidCancel:(ConfigViewController *)controller
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)configView:(ConfigViewController *)controller didSelectLanguage:(NSString*)lang
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    self.lang = lang;
 }
 
 

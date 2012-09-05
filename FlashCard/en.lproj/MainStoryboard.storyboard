@@ -8,16 +8,20 @@
         <scene sceneID="14">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="13" sceneMemberID="firstResponder"/>
-                <navigationController id="3" sceneMemberID="viewController">
+                <navigationController toolbarHidden="NO" id="3" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="6">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="zV8-At-mda">
+                        <rect key="frame" x="0.0" y="724" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="19" kind="relationship" relationship="rootViewController" id="25"/>
                     </connections>
                 </navigationController>
             </objects>
-            <point key="canvasLocation" x="-260" y="-1882"/>
+            <point key="canvasLocation" x="-788" y="-2638"/>
         </scene>
         <scene sceneID="16">
             <objects>
@@ -69,8 +73,8 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="23" sceneMemberID="firstResponder"/>
                 <tableViewController storyboardIdentifier="" title="Master" clearsSelectionOnViewWillAppear="NO" id="19" customClass="FCMasterViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="20">
-                        <rect key="frame" x="0.0" y="64" width="320" height="704"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="660"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         <prototypes>
@@ -101,19 +105,57 @@
                             <outlet property="delegate" destination="19" id="21"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Master" id="40">
-                        <barButtonItem key="leftBarButtonItem" image="es.tiff" id="01k-RS-4mU">
+                    <toolbarItems>
+                        <barButtonItem image="config.png" style="plain" id="Az0-Im-yB0">
                             <connections>
-                                <action selector="changeLanguage:" destination="19" id="MDI-Pn-YdE"/>
+                                <segue destination="xbn-Sb-wsz" kind="push" identifier="config" id="dYg-py-mgP"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" title="Master" id="40"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </tableViewController>
+            </objects>
+            <point key="canvasLocation" x="-323" y="-2649"/>
+        </scene>
+        <scene sceneID="Tgm-xy-4Qi">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5tF-Wh-EGa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="xbn-Sb-wsz" customClass="ConfigViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="m9v-7x-jSb">
+                        <rect key="frame" x="0.0" y="64" width="320" height="660"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <pickerView contentMode="scaleToFill" id="R4q-Qn-vsH">
+                                <rect key="frame" x="-2" y="160" width="325" height="216"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="xbn-Sb-wsz" id="yVq-8a-LuI"/>
+                                    <outlet property="delegate" destination="xbn-Sb-wsz" id="e54-77-Qo7"/>
+                                </connections>
+                            </pickerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="p7y-V6-N6Q">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="swX-R3-1fe">
+                            <connections>
+                                <action selector="cancel:" destination="xbn-Sb-wsz" id="3bz-CZ-I8E"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="sYl-Rx-7ND">
+                            <connections>
+                                <action selector="done:" destination="xbn-Sb-wsz" id="ZZN-8V-N0e"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="_langButton" destination="01k-RS-4mU" id="0dU-SY-LJN"/>
+                        <outlet property="_langPicker" destination="R4q-Qn-vsH" id="ulj-zT-jA4"/>
                     </connections>
-                </tableViewController>
+                </viewController>
             </objects>
-            <point key="canvasLocation" x="609" y="-1605"/>
+            <point key="canvasLocation" x="240" y="-2689"/>
         </scene>
         <scene sceneID="50">
             <objects>
@@ -131,9 +173,17 @@
         </scene>
     </scenes>
     <resources>
-        <image name="es.tiff" width="32" height="32"/>
+        <image name="config.png" width="32" height="32"/>
     </resources>
     <classes>
+        <class className="ConfigViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ConfigViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancel:"/>
+                <relationship kind="action" name="done:"/>
+                <relationship kind="outlet" name="_langPicker" candidateClass="UIPickerView"/>
+            </relationships>
+        </class>
         <class className="FCDetailViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FCDetailViewController.h"/>
             <relationships>
@@ -142,10 +192,6 @@
         </class>
         <class className="FCMasterViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FCMasterViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="changeLanguage:"/>
-                <relationship kind="outlet" name="_langButton" candidateClass="UIBarButtonItem"/>
-            </relationships>
         </class>
         <class className="FCSplitViewController" superclassName="UISplitViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FCSplitViewController.h"/>

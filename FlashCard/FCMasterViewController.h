@@ -12,9 +12,11 @@
 
 #import <CoreData/CoreData.h>
 
-@interface FCMasterViewController : UITableViewController <NSFetchedResultsControllerDelegate> {
+#import "ConfigViewController.h"
+
+@interface FCMasterViewController : UITableViewController <NSFetchedResultsControllerDelegate, ConfigViewControllerDelegate> {
     NSDictionary *_kLangFullNames;
-    __weak IBOutlet UIBarButtonItem *_langButton;
+//    __weak IBOutlet UIBarButtonItem *_configButton;
 }
 
 @property (strong, nonatomic) FCDetailViewController *detailViewController;
@@ -26,7 +28,9 @@
 
 - (void)syncWithWebService;
 - (void)loadEntriesFromCoreData;
-- (IBAction)changeLanguage:(id)sender;
+//- (IBAction)changeConfig:(id)sender;
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender;
 
 
 @end

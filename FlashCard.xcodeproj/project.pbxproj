@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		6803E5B015F5D5F4003D790C /* FCSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6803E5AF15F5D5F4003D790C /* FCSplitViewController.m */; };
-		6803E61515F6D9E2003D790C /* es.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 6803E61415F6D9E2003D790C /* es.tiff */; };
+		6803E61F15F71934003D790C /* es.png in Resources */ = {isa = PBXBuildFile; fileRef = 6803E61E15F71934003D790C /* es.png */; };
+		6803E62115F71D4C003D790C /* config.png in Resources */ = {isa = PBXBuildFile; fileRef = 6803E62015F71D4C003D790C /* config.png */; };
+		6803E62415F71F2A003D790C /* ConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6803E62315F71F2A003D790C /* ConfigViewController.m */; };
 		68A2AC5215F36697009678FF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2AC5115F36697009678FF /* UIKit.framework */; };
 		68A2AC5415F36697009678FF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2AC5315F36697009678FF /* Foundation.framework */; };
 		68A2AC5615F36697009678FF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2AC5515F36697009678FF /* CoreGraphics.framework */; };
@@ -53,7 +55,10 @@
 /* Begin PBXFileReference section */
 		6803E5AE15F5D5F4003D790C /* FCSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCSplitViewController.h; sourceTree = "<group>"; };
 		6803E5AF15F5D5F4003D790C /* FCSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCSplitViewController.m; sourceTree = "<group>"; };
-		6803E61415F6D9E2003D790C /* es.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = es.tiff; sourceTree = "<group>"; };
+		6803E61E15F71934003D790C /* es.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = es.png; sourceTree = "<group>"; };
+		6803E62015F71D4C003D790C /* config.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = config.png; sourceTree = "<group>"; };
+		6803E62215F71F29003D790C /* ConfigViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigViewController.h; sourceTree = "<group>"; };
+		6803E62315F71F2A003D790C /* ConfigViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigViewController.m; sourceTree = "<group>"; };
 		68A2AC4D15F36696009678FF /* FlashCard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlashCard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68A2AC5115F36697009678FF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		68A2AC5315F36697009678FF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -178,6 +183,8 @@
 				68A2AC6215F36697009678FF /* FCAppDelegate.h */,
 				68A2AC6315F36697009678FF /* FCAppDelegate.m */,
 				68A2AC6515F36697009678FF /* MainStoryboard.storyboard */,
+				6803E62215F71F29003D790C /* ConfigViewController.h */,
+				6803E62315F71F2A003D790C /* ConfigViewController.m */,
 				6803E5AE15F5D5F4003D790C /* FCSplitViewController.h */,
 				6803E5AF15F5D5F4003D790C /* FCSplitViewController.m */,
 				68A2AC6B15F36697009678FF /* FCMasterViewController.h */,
@@ -195,7 +202,8 @@
 		68A2AC5A15F36697009678FF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				6803E61415F6D9E2003D790C /* es.tiff */,
+				6803E62015F71D4C003D790C /* config.png */,
+				6803E61E15F71934003D790C /* es.png */,
 				68A2AC5B15F36697009678FF /* FlashCard-Info.plist */,
 				68A2AC5C15F36697009678FF /* InfoPlist.strings */,
 				68A2AC5F15F36697009678FF /* main.m */,
@@ -295,7 +303,8 @@
 			files = (
 				68A2AC5E15F36697009678FF /* InfoPlist.strings in Resources */,
 				68A2AC6715F36697009678FF /* MainStoryboard.storyboard in Resources */,
-				6803E61515F6D9E2003D790C /* es.tiff in Resources */,
+				6803E61F15F71934003D790C /* es.png in Resources */,
+				6803E62115F71D4C003D790C /* config.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,6 +347,7 @@
 				68A2AC9915F43FE9009678FF /* Entry.m in Sources */,
 				68A2ACFA15F58C59009678FF /* DefaultSettingsViewController.m in Sources */,
 				6803E5B015F5D5F4003D790C /* FCSplitViewController.m in Sources */,
+				6803E62415F71F2A003D790C /* ConfigViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
