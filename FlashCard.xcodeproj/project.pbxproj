@@ -11,6 +11,7 @@
 		6803E61F15F71934003D790C /* es.png in Resources */ = {isa = PBXBuildFile; fileRef = 6803E61E15F71934003D790C /* es.png */; };
 		6803E62115F71D4C003D790C /* config.png in Resources */ = {isa = PBXBuildFile; fileRef = 6803E62015F71D4C003D790C /* config.png */; };
 		6803E62415F71F2A003D790C /* ConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6803E62315F71F2A003D790C /* ConfigViewController.m */; };
+		6803E63715F752DB003D790C /* NSDate+RelativeExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6803E63615F752DA003D790C /* NSDate+RelativeExtension.m */; };
 		68A2AC5215F36697009678FF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2AC5115F36697009678FF /* UIKit.framework */; };
 		68A2AC5415F36697009678FF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2AC5315F36697009678FF /* Foundation.framework */; };
 		68A2AC5615F36697009678FF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2AC5515F36697009678FF /* CoreGraphics.framework */; };
@@ -59,6 +60,8 @@
 		6803E62015F71D4C003D790C /* config.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = config.png; sourceTree = "<group>"; };
 		6803E62215F71F29003D790C /* ConfigViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigViewController.h; sourceTree = "<group>"; };
 		6803E62315F71F2A003D790C /* ConfigViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigViewController.m; sourceTree = "<group>"; };
+		6803E63515F752DA003D790C /* NSDate+RelativeExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+RelativeExtension.h"; sourceTree = "<group>"; };
+		6803E63615F752DA003D790C /* NSDate+RelativeExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+RelativeExtension.m"; sourceTree = "<group>"; };
 		68A2AC4D15F36696009678FF /* FlashCard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlashCard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68A2AC5115F36697009678FF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		68A2AC5315F36697009678FF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -189,6 +192,8 @@
 				6803E5AF15F5D5F4003D790C /* FCSplitViewController.m */,
 				68A2AC6B15F36697009678FF /* FCMasterViewController.h */,
 				68A2AC6C15F36697009678FF /* FCMasterViewController.m */,
+				6803E63515F752DA003D790C /* NSDate+RelativeExtension.h */,
+				6803E63615F752DA003D790C /* NSDate+RelativeExtension.m */,
 				68A2AC6E15F36697009678FF /* FCDetailViewController.h */,
 				68A2AC6F15F36697009678FF /* FCDetailViewController.m */,
 				68A2AC6815F36697009678FF /* FlashCard.xcdatamodeld */,
@@ -348,6 +353,7 @@
 				68A2ACFA15F58C59009678FF /* DefaultSettingsViewController.m in Sources */,
 				6803E5B015F5D5F4003D790C /* FCSplitViewController.m in Sources */,
 				6803E62415F71F2A003D790C /* ConfigViewController.m in Sources */,
+				6803E63715F752DB003D790C /* NSDate+RelativeExtension.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
