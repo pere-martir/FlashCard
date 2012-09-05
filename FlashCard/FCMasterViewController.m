@@ -20,6 +20,7 @@
 @synthesize detailViewController = _detailViewController;
 @synthesize fetchedResultsController = __fetchedResultsController;
 @synthesize managedObjectContext = __managedObjectContext;
+@synthesize lang = _lang;
 
 - (void)awakeFromNib
 {
@@ -41,11 +42,17 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     self.detailViewController = (FCDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
-    // Set up the edit and add buttons.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
-
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject)];
-    self.navigationItem.rightBarButtonItem = addButton;
+    
+    if (!_kLangFullNames) {
+        _kLangFullNames = [NSDictionary dictionaryWithObjectsAndKeys: 
+                           @"Castellano", @"es",
+                           @"Italiano", @"it", nil];
+    }
+    
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    NSString* lang = [defaults stringForKey:@"lang"];
+    if (nil == lang) lang = @"es";
+    self.lang = lang;
     
     if ([PFUser currentUser]) [self syncWithWebService];
     
@@ -55,6 +62,20 @@
 		exit(-1);  // Fail
 	}
 }
+
+
+- (void) setLang:(NSString *)lang
+{
+    _lang = lang;
+    UIImage *flagImage = [UIImage imageNamed:[lang stringByAppendingString:@".tiff"]];
+    _langButton.image = flagImage;    
+    self.title = [_kLangFullNames valueForKey:lang];
+}
+
+- (void)changeLanguage
+{
+}
+
 
 - (void) syncWithWebService
 {
@@ -67,6 +88,7 @@
 
     PFQuery *query = [PFQuery queryWithClassName:@"Entry"];
     [query whereKey:@"updatedAt" greaterThan:lastUpdatedAt];
+    //[query whereKey:@"lang" equalTo:self.lang];
     // Use "paged-index" to fetch all - 
     //  http://engineering.linkedin.com/voldemort/voldemort-collections-iterating-over-key-value-store
     query.limit = 1000; // TODO: ???
@@ -137,8 +159,12 @@
 {
 }
 
+- (IBAction)changeLanguage:(id)sender {
+}
+
 - (void)viewDidUnload
 {
+    _langButton = nil;
     [super viewDidUnload];
     __fetchedResultsController = nil;
 }
@@ -257,6 +283,9 @@
     // Set the batch size to a suitable number.
     [fetchRequest setFetchBatchSize:20];
     
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"lang == %@", self.lang];
+    [fetchRequest setPredicate:predicate];
+    
     // Edit the sort key as appropriate.
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"updatedAt" ascending:NO];
     NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
@@ -265,7 +294,7 @@
     
     // Edit the section name key path and cache name if appropriate.
     // nil for section name key path means "no sections".
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
+    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
     aFetchedResultsController.delegate = self;
     self.fetchedResultsController = aFetchedResultsController;
     
@@ -372,5 +401,7 @@
         abort();
     }
 }
+
+
 
 @end

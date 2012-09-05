@@ -101,10 +101,19 @@
                             <outlet property="delegate" destination="19" id="21"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Master" id="40"/>
+                    <navigationItem key="navigationItem" title="Master" id="40">
+                        <barButtonItem key="leftBarButtonItem" image="es.tiff" id="01k-RS-4mU">
+                            <connections>
+                                <action selector="changeLanguage:" destination="19" id="MDI-Pn-YdE"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="_langButton" destination="01k-RS-4mU" id="0dU-SY-LJN"/>
+                    </connections>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="603" y="-1739"/>
+            <point key="canvasLocation" x="609" y="-1605"/>
         </scene>
         <scene sceneID="50">
             <objects>
@@ -121,6 +130,9 @@
             <point key="canvasLocation" x="-530" y="-628"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="es.tiff" width="32" height="32"/>
+    </resources>
     <classes>
         <class className="FCDetailViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FCDetailViewController.h"/>
@@ -130,6 +142,10 @@
         </class>
         <class className="FCMasterViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FCMasterViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="changeLanguage:"/>
+                <relationship kind="outlet" name="_langButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
         </class>
         <class className="FCSplitViewController" superclassName="UISplitViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FCSplitViewController.h"/>
