@@ -262,7 +262,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSManagedObject *selectedObject = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-    self.detailViewController.detailItem = selectedObject;    
+    
+    [self.detailViewController showDetailOfWord:[selectedObject valueForKey:@"word"]
+                                     ofLanguage:[selectedObject valueForKey:@"lang"]];
 }
 
 #pragma mark - Fetched results controller

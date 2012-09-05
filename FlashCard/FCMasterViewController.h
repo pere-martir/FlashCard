@@ -16,7 +16,6 @@
 
 @interface FCMasterViewController : UITableViewController <NSFetchedResultsControllerDelegate, ConfigViewControllerDelegate> {
     NSDictionary *_kLangFullNames;
-//    __weak IBOutlet UIBarButtonItem *_configButton;
 }
 
 @property (strong, nonatomic) FCDetailViewController *detailViewController;
@@ -27,10 +26,5 @@
 @property (copy, nonatomic, setter=setLang:) NSString* lang;
 
 - (void)syncWithWebService;
-- (void)loadEntriesFromCoreData;
-//- (IBAction)changeConfig:(id)sender;
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender;
-
 
 @end

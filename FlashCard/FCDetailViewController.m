@@ -17,6 +17,8 @@
 
 @synthesize detailItem = _detailItem;
 @synthesize detailDescriptionLabel = _detailDescriptionLabel;
+@synthesize webView = _webView;
+@synthesize DefinitionView = _DefinitionView;
 @synthesize masterPopoverController = _masterPopoverController;
 
 #pragma mark - Managing the detail item
@@ -61,6 +63,8 @@
 
 - (void)viewDidUnload
 {
+    [self setWebView:nil];
+    [self setDefinitionView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -106,6 +110,20 @@
     // Called when the view is shown again in the split view, invalidating the button and popover controller.
     [self.navigationItem setLeftBarButtonItem:nil animated:YES];
     self.masterPopoverController = nil;
+}
+
+- (void)showDetailOfWord:(NSString*)word ofLanguage:(NSString*)lang
+{
+    NSString *url = nil;
+    if ([lang isEqualToString:@"es"])
+        url = [NSString stringWithFormat:@"http://www.wordreference.com/es/en/translation.asp?spen=%@",word];
+    else if ([lang isEqualToString:@"it"])
+        url = [NSString stringWithFormat:@"http://www.wordreference.com/iten/%@", word];
+        
+    if (url) {
+        NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+        [self.webView loadRequest:req];
+    }
 }
 
 @end

@@ -14,4 +14,10 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 
+@property (weak, nonatomic) IBOutlet UIWebView *webView;
+
+@property (weak, nonatomic) IBOutlet UILabel *DefinitionView;
+
+- (void)showDetailOfWord:(NSString*)word ofLanguage:(NSString*)lang;
+
 @end
