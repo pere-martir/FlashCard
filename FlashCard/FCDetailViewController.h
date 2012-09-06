@@ -12,19 +12,21 @@
     int _currentTab;
     NSString* _word;
     NSString* _lang;
+    __weak IBOutlet UITabBarItem *_tabBarItemWR;
     __weak IBOutlet UITabBar *_tabbar;
+    __weak IBOutlet UITextField *_wordToBeSearched;
 }
 
-@property (strong, nonatomic) id detailItem;
-
-@property (strong, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+@property (weak, nonatomic) NSUserDefaults* prefs;
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 
-@property (weak, nonatomic) IBOutlet UILabel *DefinitionView;
+- (IBAction)search:(id)sender;
+- (IBAction)didEndOnExit:(id)sender;
 
 - (void)showEnglishTranslation;
 - (void)showDefinition;
+- (void)showWikipedia;
 
 - (void)showDetailOfWord:(NSString*)word ofLanguage:(NSString*)lang;
 

@@ -7,7 +7,7 @@
 //
 
 #import "FCSplitViewController.h"
-#import "DefaultSettingsViewController.h"
+#import "LoginViewController.h"
 #import "FCMasterViewController.h"
 
 @implementation FCSplitViewController
@@ -57,7 +57,7 @@
 {
     //[PFUser logOut];
     if (![PFUser currentUser]) { // No user logged in
-        DefaultSettingsViewController* loginVC = [[DefaultSettingsViewController alloc] init];
+        LoginViewController* loginVC = [[LoginViewController alloc] init];
         //loginVC.modalPresentationStyle = UIModalPresentationFormSheet;
         loginVC.delegate = self;
         //[self presentModalViewController:loginVC animated:TRUE];

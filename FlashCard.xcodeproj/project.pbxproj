@@ -12,6 +12,7 @@
 		6803E62115F71D4C003D790C /* config.png in Resources */ = {isa = PBXBuildFile; fileRef = 6803E62015F71D4C003D790C /* config.png */; };
 		6803E62415F71F2A003D790C /* ConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6803E62315F71F2A003D790C /* ConfigViewController.m */; };
 		6803E63715F752DB003D790C /* NSDate+RelativeExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6803E63615F752DA003D790C /* NSDate+RelativeExtension.m */; };
+		689DC9F115F84927006CED9B /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 689DC9F015F84927006CED9B /* LoginViewController.m */; };
 		689DEC0415F789E4007C5F56 /* WR_fbicon_200x200.png in Resources */ = {isa = PBXBuildFile; fileRef = 689DEC0315F789E4007C5F56 /* WR_fbicon_200x200.png */; };
 		68A2AC5215F36697009678FF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2AC5115F36697009678FF /* UIKit.framework */; };
 		68A2AC5415F36697009678FF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2AC5315F36697009678FF /* Foundation.framework */; };
@@ -41,7 +42,6 @@
 		68A2ACAA15F49894009678FF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2ACA915F49894009678FF /* StoreKit.framework */; };
 		68A2ACAC15F4989B009678FF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2ACAB15F4989B009678FF /* SystemConfiguration.framework */; };
 		68A2ACF215F49E6C009678FF /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2ACF115F49E6C009678FF /* MobileCoreServices.framework */; };
-		68A2ACFA15F58C59009678FF /* DefaultSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68A2ACF915F58C59009678FF /* DefaultSettingsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +63,8 @@
 		6803E62315F71F2A003D790C /* ConfigViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigViewController.m; sourceTree = "<group>"; };
 		6803E63515F752DA003D790C /* NSDate+RelativeExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+RelativeExtension.h"; sourceTree = "<group>"; };
 		6803E63615F752DA003D790C /* NSDate+RelativeExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+RelativeExtension.m"; sourceTree = "<group>"; };
+		689DC9EF15F84927006CED9B /* LogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInViewController.h; sourceTree = "<group>"; };
+		689DC9F015F84927006CED9B /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		689DEC0315F789E4007C5F56 /* WR_fbicon_200x200.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WR_fbicon_200x200.png; sourceTree = "<group>"; };
 		68A2AC4D15F36696009678FF /* FlashCard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlashCard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68A2AC5115F36697009678FF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -99,8 +101,6 @@
 		68A2ACA915F49894009678FF /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		68A2ACAB15F4989B009678FF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		68A2ACF115F49E6C009678FF /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		68A2ACF815F58C45009678FF /* DefaultSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultSettingsViewController.h; sourceTree = "<group>"; };
-		68A2ACF915F58C59009678FF /* DefaultSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultSettingsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,8 +183,8 @@
 		68A2AC5915F36697009678FF /* FlashCard */ = {
 			isa = PBXGroup;
 			children = (
-				68A2ACF915F58C59009678FF /* DefaultSettingsViewController.m */,
-				68A2ACF815F58C45009678FF /* DefaultSettingsViewController.h */,
+				689DC9EF15F84927006CED9B /* LogInViewController.h */,
+				689DC9F015F84927006CED9B /* LoginViewController.m */,
 				68A2AC6215F36697009678FF /* FCAppDelegate.h */,
 				68A2AC6315F36697009678FF /* FCAppDelegate.m */,
 				68A2AC6515F36697009678FF /* MainStoryboard.storyboard */,
@@ -354,10 +354,10 @@
 				68A2AC6D15F36697009678FF /* FCMasterViewController.m in Sources */,
 				68A2AC7015F36697009678FF /* FCDetailViewController.m in Sources */,
 				68A2AC9915F43FE9009678FF /* Entry.m in Sources */,
-				68A2ACFA15F58C59009678FF /* DefaultSettingsViewController.m in Sources */,
 				6803E5B015F5D5F4003D790C /* FCSplitViewController.m in Sources */,
 				6803E62415F71F2A003D790C /* ConfigViewController.m in Sources */,
 				6803E63715F752DB003D790C /* NSDate+RelativeExtension.m in Sources */,
+				689DC9F115F84927006CED9B /* LoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

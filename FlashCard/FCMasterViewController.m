@@ -329,8 +329,11 @@
     NSManagedObject *managedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = [managedObject valueForKey:@"word"];
     
+    NSInteger lookups = [[managedObject valueForKey:@"lookups"] intValue];
+    
     // This is only for debugging
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [managedObject valueForKey:@"lookups"]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", lookups];
+    
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

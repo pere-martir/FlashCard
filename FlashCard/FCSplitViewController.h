@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "DefaultSettingsViewController.h"
+#import "LoginViewController.h"
 
 @interface FCSplitViewController : UISplitViewController<LoginViewDelegate>
 

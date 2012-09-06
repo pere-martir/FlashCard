@@ -10,6 +10,7 @@
 #import "FCAppDelegate.h"
 
 #import "FCMasterViewController.h"
+#import "FCDetailViewController.h"
 #import "FCSplitViewController.h"
 
 @implementation FCAppDelegate
@@ -35,14 +36,14 @@
     // Override point for customization after application launch.
     FCSplitViewController *splitViewController = (FCSplitViewController *)self.window.rootViewController;
     
-    FCDetailViewController *detailViewController = [splitViewController.viewControllers lastObject];
-    splitViewController.delegate = detailViewController;
-    
+    FCDetailViewController *detailedVC = [splitViewController.viewControllers lastObject];
+    detailedVC.prefs = prefs;
+    splitViewController.delegate = detailedVC;
     
     UINavigationController *masterNavigationController = [splitViewController.viewControllers objectAtIndex:0];
-    FCMasterViewController *controller = (FCMasterViewController *)masterNavigationController.topViewController;
-    controller.managedObjectContext = self.managedObjectContext; 
-    controller.prefs = prefs;
+    FCMasterViewController *masterVC = (FCMasterViewController *)masterNavigationController.topViewController;
+    masterVC.managedObjectContext = self.managedObjectContext; 
+    masterVC.prefs = prefs;
     
     return YES;
 }

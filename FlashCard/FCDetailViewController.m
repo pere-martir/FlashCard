@@ -10,41 +10,16 @@
 
 @interface FCDetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
-- (void)configureView;
 @end
 
 @implementation FCDetailViewController
 
-@synthesize detailItem = _detailItem;
-@synthesize detailDescriptionLabel = _detailDescriptionLabel;
 @synthesize webView = _webView;
-@synthesize DefinitionView = _DefinitionView;
+
 @synthesize masterPopoverController = _masterPopoverController;
+@synthesize prefs = _prefs;
 
 #pragma mark - Managing the detail item
-
-- (void)setDetailItem:(id)newDetailItem
-{
-    if (_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
-        
-        // Update the view.
-        [self configureView];
-    }
-
-    if (self.masterPopoverController != nil) {
-        [self.masterPopoverController dismissPopoverAnimated:YES];
-    }        
-}
-
-- (void)configureView
-{
-    // Update the user interface for the detail item.
-
-    if (self.detailItem) {
-        self.detailDescriptionLabel.text = [self.detailItem description];
-    }
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -57,18 +32,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
     _currentTab = 0;
+    _lang = [[self.prefs stringForKey:@"lang"] copy];
     self.webView.delegate = self;
     _tabbar.selectedItem = [_tabbar.items objectAtIndex:_currentTab];
-    [self configureView];
 }
 
 - (void)viewDidUnload
 {
     [self setWebView:nil];
-    [self setDefinitionView:nil];
     _tabbar = nil;
+    _wordToBeSearched = nil;
+    _word = nil;
+    _tabBarItemWR = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -124,7 +100,24 @@
         [self showEnglishTranslation];
     } else if (1 == _currentTab) {
         [self showDefinition];
+    } else if (2 == _currentTab) {
+        [self showWikipedia];
     }
+}
+
+- (IBAction)search:(id)sender {
+    _currentTab = 0;
+    _tabbar.selectedItem = _tabBarItemWR;
+    _word = [_wordToBeSearched.text copy];
+    [self showEnglishTranslation];
+}
+
+- (IBAction)didEndOnExit:(id)sender {
+    [sender resignFirstResponder];
+    _currentTab = 0;
+    _tabbar.selectedItem = _tabBarItemWR;
+    _word = [_wordToBeSearched.text copy];
+    [self showEnglishTranslation];
 }
 
 - (void)showEnglishTranslation
@@ -155,6 +148,14 @@
     }
 }
 
+- (void)showWikipedia
+{
+    NSString *url = [NSString stringWithFormat:@"http://%@.wikipedia.org/wiki/%@", _lang, _word];
+    if (url) {
+        NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+        [self.webView loadRequest:req];
+    }
+}
 
 #pragma mark - UIWebViewDelegate
 
@@ -168,6 +169,12 @@
         [scroll setZoomScale:zoom animated:YES];
     }
 #endif
+
+    NSString *html = [webView stringByEvaluatingJavaScriptFromString: @"document.body.innerHTML"];
+    NSRange range = [html rangeOfString:@"non trovata"];
+    if (range.location != NSNotFound) {
+        // increment nslookup or add a new word
+    }
 }
 
 #pragma mark - UITabBarDelegate
