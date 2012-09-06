@@ -10,7 +10,7 @@
 
 @implementation ConfigViewController
 
-@synthesize _langPicker, delegate = _delegate;
+@synthesize _langPicker, delegate = _delegate, prefs = _prefs;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -54,19 +54,22 @@
     
     _kLanguages = [_kLangFullNames allValues];
     
-    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-    NSString* lang = [defaults stringForKey:@"lang"];
-    if (nil == lang) lang = [[_kLangFullNames allKeys] objectAtIndex:0];
+    NSString* lang = [self.prefs stringForKey:@"lang"];
+    NSAssert(nil != lang, @"nil != lang");
     
     NSString* langFullName = [_kLangFullNames objectForKey:lang];
     int index = [_kLanguages indexOfObject:langFullName];
     [_langPicker selectRow:index inComponent:0 animated:YES];
+    
+    NSInteger x = [self.prefs integerForKey:@"groupedBy"];
+    _groupedBy.selectedSegmentIndex = x; 
 }
 
 
 - (void)viewDidUnload
 {
     [self set_langPicker:nil];
+    _groupedBy = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -107,12 +110,16 @@ numberOfRowsInComponent:(NSInteger)component
 }
 
 - (IBAction)done:(id)sender {
-    [self.delegate configView:self didSelectLanguage:
-     [[_kLangFullNames allKeys] objectAtIndex:_selectedLang]];
+    [self.delegate configView:self didSelectLanguage:[[_kLangFullNames allKeys] objectAtIndex:_selectedLang] 
+                 andGroupedBy: _groupedBy.selectedSegmentIndex];
 }
 
 - (IBAction)cancel:(id)sender {
     [self.delegate configViewDidCancel:self];
+}
+
+- (IBAction)changeGroupedBy:(id)sender {
+
 }
 
 @end

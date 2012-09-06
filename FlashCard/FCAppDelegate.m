@@ -24,14 +24,26 @@
     [Parse setApplicationId:@"xvt7zz08Ye9MFDn7OIVJ91IPOlU9LaOr4fJgqgS6"
                   clientKey:@"sROhLgPK3LPOTIznObv1cTkavgEN0wwodZSoXBQ6"];
     //[PFUser logOut];
+    
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    NSString *lang = [prefs stringForKey:@"lang"];
+    if (nil == lang) {
+        // FIXME: use one of the language in Core Data
+        [prefs setObject:@"es" forKey:@"lang"]; 
+    }
+    
     // Override point for customization after application launch.
     FCSplitViewController *splitViewController = (FCSplitViewController *)self.window.rootViewController;
-    UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
-    splitViewController.delegate = (id)navigationController.topViewController;
+    
+    FCDetailViewController *detailViewController = [splitViewController.viewControllers lastObject];
+    splitViewController.delegate = detailViewController;
+    
     
     UINavigationController *masterNavigationController = [splitViewController.viewControllers objectAtIndex:0];
     FCMasterViewController *controller = (FCMasterViewController *)masterNavigationController.topViewController;
     controller.managedObjectContext = self.managedObjectContext; 
+    controller.prefs = prefs;
+    
     return YES;
 }
 							

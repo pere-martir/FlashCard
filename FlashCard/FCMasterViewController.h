@@ -16,8 +16,10 @@
 
 @interface FCMasterViewController : UITableViewController <NSFetchedResultsControllerDelegate, ConfigViewControllerDelegate> {
     NSDictionary *_kLangFullNames;
+    NSInteger _groupedBy;
 }
 
+@property (weak, nonatomic) NSUserDefaults *prefs;
 @property (strong, nonatomic) FCDetailViewController *detailViewController;
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;

@@ -21,6 +21,7 @@
 @synthesize fetchedResultsController = __fetchedResultsController;
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize lang = _lang;
+@synthesize prefs = _prefs;
 
 - (void)awakeFromNib
 {
@@ -41,7 +42,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    self.detailViewController = (FCDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+    self.detailViewController = (FCDetailViewController *)[self.splitViewController.viewControllers lastObject];
     
     if (!_kLangFullNames) {
         _kLangFullNames = [NSDictionary dictionaryWithObjectsAndKeys: 
@@ -49,8 +50,8 @@
                            @"Italiano", @"it", nil];
     }
     
-    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-    NSString* lang = [defaults stringForKey:@"lang"];
+    _groupedBy = [self.prefs integerForKey:@"groupedBy"];
+    NSString* lang = [self.prefs stringForKey:@"lang"];
     if (nil == lang) lang = @"es";
     self.lang = lang;
     
@@ -68,8 +69,7 @@
 {
     if (![self.lang isEqualToString:lang]) {
         _lang = lang;
-        NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];            
-        [defaults setObject:_lang forKey:@"lang"];
+        [self.prefs setObject:_lang forKey:@"lang"];
         self.fetchedResultsController = nil;
         self.title = [_kLangFullNames valueForKey:lang];
         [self.tableView reloadData];
@@ -145,21 +145,13 @@
                 abort();
             } 
             
-            NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];            
-            [defaults setObject:[NSDate date] forKey:@"lastUpdatedAt"];
+            [self.prefs setObject:[NSDate date] forKey:@"lastUpdatedAt"];
 
         } else {
             // Log details of the failure
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
-}
-
-- (void)loadEntriesFromCoreData
-{
-}
-
-- (IBAction)changeLanguage:(id)sender {
 }
 
 - (void)viewDidUnload
@@ -179,7 +171,6 @@
     [super viewDidAppear:animated];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"SDSyncEngineSyncCompleted" object:nil queue:nil usingBlock:^(NSNotification *note) {
-        [self loadEntriesFromCoreData];
         [self.tableView reloadData];
     }];
 }
@@ -296,14 +287,20 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"lang == %@", self.lang];
     [fetchRequest setPredicate:predicate];
     
-    // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"updatedAt" ascending:NO];
+    NSSortDescriptor *sortDescriptor = nil;
+    NSString *sectionNameKeyPath = nil;
+    if (_groupedBy == 0) {
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"updatedAt" ascending:NO];
+        sectionNameKeyPath = @"updatedAt.relativeDate";
+    } else {
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"lookups" ascending:NO];
+        sectionNameKeyPath = @"lookups";
+    } 
     NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
-    
     [fetchRequest setSortDescriptors:sortDescriptors];
     
     NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] 
-                                                             initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:@"updatedAt.relativeDate" cacheName:nil];
+                                                             initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:sectionNameKeyPath cacheName:nil];
     aFetchedResultsController.delegate = self;
     self.fetchedResultsController = aFetchedResultsController;
     
@@ -331,6 +328,9 @@
 {
     NSManagedObject *managedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = [managedObject valueForKey:@"word"];
+    
+    // This is only for debugging
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [managedObject valueForKey:@"lookups"]];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -338,6 +338,7 @@
     if ([segue.identifier isEqualToString:@"config"]) {
         ConfigViewController *controller = (ConfigViewController *) segue.destinationViewController;
         controller.delegate = self;
+        controller.prefs = self.prefs;
     }
 }
 
@@ -347,9 +348,18 @@
 }
 
 - (void)configView:(ConfigViewController *)controller didSelectLanguage:(NSString*)lang
+      andGroupedBy:(NSInteger)groupedBy;
 {
     [self.navigationController popViewControllerAnimated:YES];
-    self.lang = lang;
+    if (![_lang isEqualToString:lang] || _groupedBy != groupedBy) {
+        _lang = lang;
+        _groupedBy = groupedBy;
+        [self.prefs setObject:_lang forKey:@"lang"];
+        [self.prefs setInteger:_groupedBy forKey:@"groupedBy"];
+        self.fetchedResultsController = nil;
+        self.title = [_kLangFullNames valueForKey:lang];
+        [self.tableView reloadData];
+    }
 }
 
 
