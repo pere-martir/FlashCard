@@ -7,6 +7,8 @@
 //
 
 #import "FCDetailViewController.h"
+#import "WebView.h"
+#import "UIWebDocumentView.h"
 
 @interface FCDetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
@@ -18,6 +20,7 @@
 
 @synthesize masterPopoverController = _masterPopoverController;
 @synthesize prefs = _prefs;
+@synthesize managedObjectContext = _managedObjectContext;
 
 #pragma mark - Managing the detail item
 
@@ -34,12 +37,30 @@
     [super viewDidLoad];
     _currentTab = 0;
     _lang = [[self.prefs stringForKey:@"lang"] copy];
-    self.webView.delegate = self;
+
     _tabbar.selectedItem = [_tabbar.items objectAtIndex:_currentTab];
+    
+    // http://stackoverflow.com/questions/10996028/uiwebview-when-did-a-page-really-finish-loading
+    // http://winxblog.com/2009/02/iphone-uiwebview-estimated-progress/
+    UIWebDocumentView *documentView = [self.webView _documentView];
+    // This is private of WebKit
+    WebView *coreWebView = [documentView webView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(progressFinished:) 
+                                                 name:@"WebProgressFinishedNotification" 
+                                               object:coreWebView];    
+    
+    self.webView.delegate = self;
 }
 
 - (void)viewDidUnload
 {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self 
+                                                    name:@"WebProgressFinishedNotification" 
+                                                  object:nil];
+    
     [self setWebView:nil];
     _tabbar = nil;
     _wordToBeSearched = nil;
@@ -105,10 +126,12 @@
     }
 }
 
+// REFACTORING: merge these two functions
 - (IBAction)search:(id)sender {
     _currentTab = 0;
     _tabbar.selectedItem = _tabBarItemWR;
     _word = [_wordToBeSearched.text copy];
+    _currentWordHasBeenAdded = NO;
     [self showEnglishTranslation];
 }
 
@@ -117,6 +140,7 @@
     _currentTab = 0;
     _tabbar.selectedItem = _tabBarItemWR;
     _word = [_wordToBeSearched.text copy];
+    _currentWordHasBeenAdded = NO;
     [self showEnglishTranslation];
 }
 
@@ -171,10 +195,102 @@
 #endif
 
     NSString *html = [webView stringByEvaluatingJavaScriptFromString: @"document.body.innerHTML"];
-    NSRange range = [html rangeOfString:@"non trovata"];
+    
+    NSRange range;
+    if ([_lang isEqualToString:@"it"]) 
+        range = [html rangeOfString:@"Concise Oxford Paravia Italian Dictionary"];
+    else if ([_lang isEqualToString:@"es"])
+        range = [html rangeOfString:@"Concise Oxford Spanish Dictionary"];
+    
+    // webViewDidFinishLoad will be called several times for a web page and
+    // we cannot know which is the last one. In order not to add a word more 
+    // than once, use _currentWordHasBeenAdded. 
     if (range.location != NSNotFound) {
-        // increment nslookup or add a new word
+        if (!_currentWordHasBeenAdded) {
+            [self incrementLookupOf:_word];
+            _currentWordHasBeenAdded = TRUE;
+        }
     }
+}
+
+- (void)incrementLookupOf:(NSString*)word
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription
+                                   entityForName:@"Entry" 
+                                   inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:entity];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"word==%@ AND lang==%@", word, _lang];
+    [fetchRequest setPredicate:predicate];
+    NSError *error = nil;
+    NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    NSAssert([result count] <= 1, @"more than one entry found of the same word");
+    NSManagedObject *entry = nil;
+    BOOL addNewWord = FALSE;
+    if ([result count] == 0) addNewWord = TRUE;
+    if (addNewWord) {
+        entry = [NSEntityDescription insertNewObjectForEntityForName:@"Entry"       
+                                              inManagedObjectContext:self.managedObjectContext];
+        [entry setValue:@"" forKey:@"objectId"]; // ???
+        [entry setValue:[NSDate date] forKey:@"createdAt"];
+        [entry setValue:[NSNumber numberWithInt:1] forKey:@"lookups"];
+        [entry setValue:word forKey:@"word"];
+        [entry setValue:_lang forKey:@"lang"];
+    } else {
+        entry = [result lastObject];
+        int lookups = [[entry valueForKey:@"lookups"] intValue] + 1;
+        [entry setValue:[NSNumber numberWithInt:lookups] forKey:@"lookups"];
+    }
+    [entry setValue:[NSDate date] forKey:@"updatedAt"];
+    
+    error = nil;
+    if (![self.managedObjectContext save:&error]) {
+        NSLog(@"Failed to update Entry");
+        abort();
+    } 
+    
+    if (addNewWord) {
+        PFObject *remoteEntry = [PFObject objectWithClassName:@"Entry"];
+        [remoteEntry setObject:[PFUser currentUser] forKey:@"user"];
+        [remoteEntry setObject:_lang forKey:@"lang"];
+        [remoteEntry setObject:word forKey:@"word"];
+        [remoteEntry setObject:[NSNumber numberWithInt:1] forKey:@"lookups"];
+        [remoteEntry saveInBackgroundWithBlock:^(BOOL succeeded, NSError* error) {
+            [entry setValue:remoteEntry.objectId forKey:@"objectId"];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSError *error;
+                if (![self.managedObjectContext save:&error]) {
+                    NSLog(@"Failed to save to Core Data (objectId)");
+                    abort();
+                } else {
+                    // Do thing since we can later find all object with empty 
+                    // objectId and sync them back to Parse.com
+                }
+            });
+        }];
+    } else {
+        PFQuery *query = [PFQuery queryWithClassName:@"Entry"];
+        [query getObjectInBackgroundWithId:[entry valueForKey:@"objectId"] 
+                         block:^(PFObject *remoteEntry, NSError *error) {
+                             NSNumber *lookups = [entry valueForKey:@"lookups"];
+                             if (!error) {
+                                 [remoteEntry setObject:lookups forKey:@"lookups"];
+                                 dispatch_async(dispatch_get_main_queue(), ^{
+                                     NSError *error;
+                                     if (![self.managedObjectContext save:&error]) {
+                                         NSLog(@"Failed to update lookups");
+                                         abort();
+                                     }
+                                 });
+                             } else {
+                                 // make it 'dirty' so that it will be synchronized
+                                 // when the network connection is available.
+                                 NSLog(@"Failed to sync to remote");
+                                 abort();
+                             }
+                         }];
+    }
+    
 }
 
 #pragma mark - UITabBarDelegate
@@ -186,6 +302,18 @@
         _currentTab = tag;
         [self showDetailOfWord:_word ofLanguage:_lang];
     }
+}
+
+#pragma mark - WebViewProgressEstimateChangedNotification 
+
+- (void)progressFinished:(NSNotification*)theNotification {
+
+//    int progress = (int)[[theNotification object] estimatedProgress];
+
+//    NSLog(@"progressEstimateChanged: %d", progress);
+    NSLog(@"progressFinished ***");
+	
+    
 }
 
 @end

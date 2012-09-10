@@ -12,6 +12,7 @@
     int _currentTab;
     NSString* _word;
     NSString* _lang;
+    BOOL _currentWordHasBeenAdded;
     __weak IBOutlet UITabBarItem *_tabBarItemWR;
     __weak IBOutlet UITabBar *_tabbar;
     __weak IBOutlet UITextField *_wordToBeSearched;
@@ -20,6 +21,7 @@
 @property (weak, nonatomic) NSUserDefaults* prefs;
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 - (IBAction)search:(id)sender;
 - (IBAction)didEndOnExit:(id)sender;
@@ -34,4 +36,6 @@
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item;
 
+- (void)progressFinished:(NSNotification*)theNotification;
+- (void)incrementLookupOf:(NSString*)word;
 @end

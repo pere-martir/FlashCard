@@ -12,6 +12,7 @@
 		6803E62115F71D4C003D790C /* config.png in Resources */ = {isa = PBXBuildFile; fileRef = 6803E62015F71D4C003D790C /* config.png */; };
 		6803E62415F71F2A003D790C /* ConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6803E62315F71F2A003D790C /* ConfigViewController.m */; };
 		6803E63715F752DB003D790C /* NSDate+RelativeExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6803E63615F752DA003D790C /* NSDate+RelativeExtension.m */; };
+		6807897C15F97EA6009F3D8A /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6807897B15F97EA6009F3D8A /* WebKit.framework */; };
 		689DC9F115F84927006CED9B /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 689DC9F015F84927006CED9B /* LoginViewController.m */; };
 		689DEC0415F789E4007C5F56 /* WR_fbicon_200x200.png in Resources */ = {isa = PBXBuildFile; fileRef = 689DEC0315F789E4007C5F56 /* WR_fbicon_200x200.png */; };
 		68A2AC5215F36697009678FF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2AC5115F36697009678FF /* UIKit.framework */; };
@@ -63,6 +64,11 @@
 		6803E62315F71F2A003D790C /* ConfigViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigViewController.m; sourceTree = "<group>"; };
 		6803E63515F752DA003D790C /* NSDate+RelativeExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+RelativeExtension.h"; sourceTree = "<group>"; };
 		6803E63615F752DA003D790C /* NSDate+RelativeExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+RelativeExtension.m"; sourceTree = "<group>"; };
+		6807897715F97CC9009F3D8A /* WebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebView.h; sourceTree = "<group>"; };
+		6807897815F97CC9009F3D8A /* WAKView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WAKView.h; sourceTree = "<group>"; };
+		6807897915F97CC9009F3D8A /* UIWebDocumentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIWebDocumentView.h; sourceTree = "<group>"; };
+		6807897A15F97CC9009F3D8A /* WAKResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WAKResponder.h; sourceTree = "<group>"; };
+		6807897B15F97EA6009F3D8A /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/PrivateFrameworks/WebKit.framework; sourceTree = SDKROOT; };
 		689DC9EF15F84927006CED9B /* LogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInViewController.h; sourceTree = "<group>"; };
 		689DC9F015F84927006CED9B /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		689DEC0315F789E4007C5F56 /* WR_fbicon_200x200.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WR_fbicon_200x200.png; sourceTree = "<group>"; };
@@ -108,6 +114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6807897C15F97EA6009F3D8A /* WebKit.framework in Frameworks */,
 				68A2ACF215F49E6C009678FF /* MobileCoreServices.framework in Frameworks */,
 				68A2ACAC15F4989B009678FF /* SystemConfiguration.framework in Frameworks */,
 				68A2ACAA15F49894009678FF /* StoreKit.framework in Frameworks */,
@@ -142,6 +149,7 @@
 		68A2AC4215F36696009678FF = {
 			isa = PBXGroup;
 			children = (
+				6807897B15F97EA6009F3D8A /* WebKit.framework */,
 				68A2ACF115F49E6C009678FF /* MobileCoreServices.framework */,
 				68A2ACAB15F4989B009678FF /* SystemConfiguration.framework */,
 				68A2ACA915F49894009678FF /* StoreKit.framework */,
@@ -183,6 +191,10 @@
 		68A2AC5915F36697009678FF /* FlashCard */ = {
 			isa = PBXGroup;
 			children = (
+				6807897715F97CC9009F3D8A /* WebView.h */,
+				6807897815F97CC9009F3D8A /* WAKView.h */,
+				6807897915F97CC9009F3D8A /* UIWebDocumentView.h */,
+				6807897A15F97CC9009F3D8A /* WAKResponder.h */,
 				689DC9EF15F84927006CED9B /* LogInViewController.h */,
 				689DC9F015F84927006CED9B /* LoginViewController.m */,
 				68A2AC6215F36697009678FF /* FCAppDelegate.h */,
@@ -470,6 +482,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FlashCard/FlashCard-Prefix.pch";
@@ -486,6 +499,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FlashCard/FlashCard-Prefix.pch";

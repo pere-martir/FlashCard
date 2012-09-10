@@ -37,6 +37,7 @@
     FCSplitViewController *splitViewController = (FCSplitViewController *)self.window.rootViewController;
     
     FCDetailViewController *detailedVC = [splitViewController.viewControllers lastObject];
+    detailedVC.managedObjectContext = self.managedObjectContext; 
     detailedVC.prefs = prefs;
     splitViewController.delegate = detailedVC;
     
