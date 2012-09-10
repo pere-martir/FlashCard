@@ -55,6 +55,7 @@
     if (nil == lang) lang = @"es";
     self.lang = lang;
     
+    [self showLastUpdate];
     if ([PFUser currentUser]) [self syncWithWebService];
     
     NSError* error = nil;
@@ -146,6 +147,7 @@
             } 
             
             [self.prefs setObject:[NSDate date] forKey:@"lastUpdatedAt"];
+            [self showLastUpdate];
 
         } else {
             // Log details of the failure
@@ -154,9 +156,21 @@
     }];
 }
 
+- (void)showLastUpdate
+{
+    NSDate *d = [self.prefs objectForKey:@"lastUpdatedAt"];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+    NSString *formattedDateString = [dateFormatter stringFromDate:d];
+    NSString *text = @"Last updated: ";
+    _lastUpdatedAt.text = [text stringByAppendingString:formattedDateString];
+}
+
 - (void)viewDidUnload
 {
     //_langButton = nil;
+    _lastUpdatedAt = nil;
     [super viewDidUnload];
     __fetchedResultsController = nil;
 }

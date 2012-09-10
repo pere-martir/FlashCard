@@ -68,6 +68,7 @@
     _wordToBeSearched = nil;
     _word = nil;
     _tabBarItemWR = nil;
+    _toolbar = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -104,14 +105,17 @@
 - (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController
 {
     barButtonItem.title = NSLocalizedString(@"Words", @"Words");
-    [self.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
+    NSMutableArray *items = [[_toolbar items] mutableCopy];
+    [items insertObject:barButtonItem atIndex:0];
+    [_toolbar setItems:items animated:YES];
     self.masterPopoverController = popoverController;
 }
 
 - (void)splitViewController:(UISplitViewController *)splitController willShowViewController:(UIViewController *)viewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
 {
-    // Called when the view is shown again in the split view, invalidating the button and popover controller.
-    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+    NSMutableArray *items = [[_toolbar items] mutableCopy];
+    [items removeObjectAtIndex:0];
+    [_toolbar setItems:items animated:YES];
     self.masterPopoverController = nil;
 }
 

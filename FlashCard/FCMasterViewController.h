@@ -16,6 +16,7 @@
 
 @interface FCMasterViewController : UITableViewController <NSFetchedResultsControllerDelegate, ConfigViewControllerDelegate> {
     NSDictionary *_kLangFullNames;
+    __weak IBOutlet UILabel *_lastUpdatedAt;
     NSInteger _groupedBy;
 }
 
@@ -28,5 +29,6 @@
 @property (copy, nonatomic, setter=setLang:) NSString* lang;
 
 - (void)syncWithWebService;
+- (void)showLastUpdate;
 
 @end
