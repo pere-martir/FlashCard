@@ -13,6 +13,7 @@
     NSString* _word;
     NSString* _lang;
     BOOL _currentWordHandled;
+    BOOL _incrementLookupsAfterLoaded;
     __weak IBOutlet UITabBarItem *_tabBarItemWR;
     __weak IBOutlet UITabBar *_tabbar;
     __weak IBOutlet UITextField *_wordToBeSearched;
@@ -26,11 +27,12 @@
 - (IBAction)search:(id)sender;
 - (IBAction)didEndOnExit:(id)sender;
 
-- (void)showEnglishTranslation;
+- (void)showEnglishTranslation:(BOOL)incrementLookup;
 - (void)showDefinition;
 - (void)showWikipedia;
 
-- (void)showDetailOfWord:(NSString*)word ofLanguage:(NSString*)lang;
+- (void)showDetailOfWord:(NSString*)word ofLanguage:(NSString*)lang 
+  andIncrementLookups:(BOOL)lookupsIncremented;
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView;
 

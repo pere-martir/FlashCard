@@ -261,7 +261,8 @@
     NSManagedObject *selectedObject = [[self fetchedResultsController] objectAtIndexPath:indexPath];
     
     [self.detailViewController showDetailOfWord:[selectedObject valueForKey:@"word"]
-                                     ofLanguage:[selectedObject valueForKey:@"lang"]];
+                                     ofLanguage:[selectedObject valueForKey:@"lang"]
+                                                        andIncrementLookups:YES];
 }
 
 #pragma mark - Fetched results controller
@@ -344,14 +345,13 @@
             break;
             
         case NSFetchedResultsChangeMove:
-            /*
             [tableView deleteRowsAtIndexPaths:[NSArray
                                                arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
             [tableView insertRowsAtIndexPaths:[NSArray
                                                arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-            */
-            [self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            /*[self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
             [tableView moveRowAtIndexPath:indexPath toIndexPath:newIndexPath]; // new in iOS 5
+             */
             break;
     }
 }
