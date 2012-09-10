@@ -12,7 +12,7 @@
     int _currentTab;
     NSString* _word;
     NSString* _lang;
-    BOOL _currentWordHasBeenAdded;
+    BOOL _currentWordHandled;
     __weak IBOutlet UITabBarItem *_tabBarItemWR;
     __weak IBOutlet UITabBar *_tabbar;
     __weak IBOutlet UITextField *_wordToBeSearched;

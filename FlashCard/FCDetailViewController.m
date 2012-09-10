@@ -131,7 +131,6 @@
     _currentTab = 0;
     _tabbar.selectedItem = _tabBarItemWR;
     _word = [_wordToBeSearched.text copy];
-    _currentWordHasBeenAdded = NO;
     [self showEnglishTranslation];
 }
 
@@ -140,7 +139,6 @@
     _currentTab = 0;
     _tabbar.selectedItem = _tabBarItemWR;
     _word = [_wordToBeSearched.text copy];
-    _currentWordHasBeenAdded = NO;
     [self showEnglishTranslation];
 }
 
@@ -153,6 +151,7 @@
         url = [NSString stringWithFormat:@"http://www.wordreference.com/iten/%@", _word];
         
     if (url) {
+        _currentWordHandled = NO;
         NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
         [self.webView loadRequest:req];
     }
@@ -204,11 +203,11 @@
     
     // webViewDidFinishLoad will be called several times for a web page and
     // we cannot know which is the last one. In order not to add a word more 
-    // than once, use _currentWordHasBeenAdded. 
+    // than once, use _currentWordHandled. 
     if (range.location != NSNotFound) {
-        if (!_currentWordHasBeenAdded) {
+        if (!_currentWordHandled) {
             [self incrementLookupOf:_word];
-            _currentWordHasBeenAdded = TRUE;
+            _currentWordHandled = TRUE;
         }
     }
 }
