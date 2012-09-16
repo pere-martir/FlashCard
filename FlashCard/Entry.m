@@ -2,7 +2,7 @@
 //  Entry.m
 //  FlashCard
 //
-//  Created by Tzu-Chien Chiu on 9/3/12.
+//  Created by Tzu-Chien Chiu on 9/15/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -11,10 +11,13 @@
 
 @implementation Entry
 
-@dynamic word;
+@dynamic createdAt;
+@dynamic dirty;
+@dynamic hidden;
 @dynamic lang;
 @dynamic lookups;
-@dynamic createdAt;
+@dynamic objectId;
 @dynamic updatedAt;
+@dynamic word;
 
 @end

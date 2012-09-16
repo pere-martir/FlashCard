@@ -18,6 +18,7 @@
     __weak IBOutlet UITabBar *_tabbar;
     __weak IBOutlet UITextField *_wordToBeSearched;
     __weak IBOutlet UIToolbar *_toolbar;
+    __weak IBOutlet UILabel *_note;
 }
 
 @property (weak, nonatomic) NSUserDefaults* prefs;

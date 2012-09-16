@@ -69,6 +69,7 @@
     _word = nil;
     _tabBarItemWR = nil;
     _toolbar = nil;
+    _note = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -199,6 +200,11 @@
         [scroll setZoomScale:zoom animated:YES];
     }
 #endif
+    
+    // 1.3 is good zoom scale for wordreference.com: the left blank band disappear
+    // and the advertisment in the right band side also.
+    [webView stringByEvaluatingJavaScriptFromString:@"document. body.style.zoom = 1.3;"];
+    
     if (_incrementLookupsAfterLoaded) {
         NSString *html = [webView stringByEvaluatingJavaScriptFromString: @"document.body.innerHTML"];
         
@@ -227,7 +233,7 @@
                                    entityForName:@"Entry" 
                                    inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"word==%@ AND lang==%@", word, _lang];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"word CONTAINS %@ AND lang==%@", word, _lang];
     [fetchRequest setPredicate:predicate];
     NSError *error = nil;
     NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
@@ -244,6 +250,7 @@
         [entry setValue:word forKey:@"word"];
         [entry setValue:_lang forKey:@"lang"];
     } else {
+        NSAssert([result count] == 1, @"more than on result");
         entry = [result lastObject];
         int lookups = [[entry valueForKey:@"lookups"] intValue] + 1;
         [entry setValue:[NSNumber numberWithInt:lookups] forKey:@"lookups"];

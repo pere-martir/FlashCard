@@ -2,7 +2,7 @@
 //  Entry.h
 //  FlashCard
 //
-//  Created by Tzu-Chien Chiu on 9/3/12.
+//  Created by Tzu-Chien Chiu on 9/15/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -12,10 +12,13 @@
 
 @interface Entry : NSManagedObject
 
-@property (nonatomic, retain) NSString * word;
+@property (nonatomic, retain) NSDate * createdAt;
+@property (nonatomic, retain) NSNumber * dirty;
+@property (nonatomic, retain) NSNumber * hidden;
 @property (nonatomic, retain) NSString * lang;
 @property (nonatomic, retain) NSNumber * lookups;
-@property (nonatomic, retain) NSDate * createdAt;
+@property (nonatomic, retain) NSString * objectId;
 @property (nonatomic, retain) NSDate * updatedAt;
+@property (nonatomic, retain) NSString * word;
 
 @end

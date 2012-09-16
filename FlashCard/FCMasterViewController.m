@@ -20,7 +20,6 @@
 @synthesize detailViewController = _detailViewController;
 @synthesize fetchedResultsController = __fetchedResultsController;
 @synthesize managedObjectContext = __managedObjectContext;
-@synthesize lang = _lang;
 @synthesize prefs = _prefs;
 
 - (void)awakeFromNib
@@ -50,31 +49,17 @@
                            @"Italiano", @"it", nil];
     }
     
-    _groupedBy = [self.prefs integerForKey:@"groupedBy"];
-    NSString* lang = [self.prefs stringForKey:@"lang"];
-    if (nil == lang) lang = @"es";
-    self.lang = lang;
-    
-    [self showLastUpdate];
-    if ([PFUser currentUser]) [self syncWithWebService];
+    NSString *_lang = [self.prefs stringForKey:@"lang"];
+    self.title = [_kLangFullNames valueForKey:_lang];
     
     NSError* error = nil;
     if (![self.fetchedResultsController performFetch:&error]) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		exit(-1);  // Fail
 	}
-}
-
-
-- (void) setLang:(NSString *)lang
-{
-    if (![self.lang isEqualToString:lang]) {
-        _lang = lang;
-        [self.prefs setObject:_lang forKey:@"lang"];
-        self.fetchedResultsController = nil;
-        self.title = [_kLangFullNames valueForKey:lang];
-        [self.tableView reloadData];
-    }
+    
+    [self showLastUpdate];
+    if ([PFUser currentUser]) [self syncWithWebService];
 }
 
 
@@ -89,7 +74,6 @@
 
     PFQuery *query = [PFQuery queryWithClassName:@"Entry"];
     [query whereKey:@"updatedAt" greaterThan:lastUpdatedAt];
-    //[query whereKey:@"lang" equalTo:self.lang];
     // Use "paged-index" to fetch all - 
     //  http://engineering.linkedin.com/voldemort/voldemort-collections-iterating-over-key-value-store
     query.limit = 1000; // TODO: ???
@@ -147,6 +131,9 @@
             } 
             
             [self.prefs setObject:[NSDate date] forKey:@"lastUpdatedAt"];
+            
+            // Console meesage at this line:
+            // "No memory available to program now: unsafe to call malloc"
             [self showLastUpdate];
 
         } else {
@@ -159,17 +146,18 @@
 - (void)showLastUpdate
 {
     NSDate *d = [self.prefs objectForKey:@"lastUpdatedAt"];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-    NSString *formattedDateString = [dateFormatter stringFromDate:d];
-    NSString *text = @"Last updated: ";
-    _lastUpdatedAt.text = [text stringByAppendingString:formattedDateString];
+    if (d) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+        NSString *formattedDateString = [dateFormatter stringFromDate:d];
+        NSString *text = @"Last updated: ";
+        _lastUpdatedAt.text = [text stringByAppendingString:formattedDateString];
+    }
 }
 
 - (void)viewDidUnload
 {
-    //_langButton = nil;
     _lastUpdatedAt = nil;
     [super viewDidUnload];
     __fetchedResultsController = nil;
@@ -243,12 +231,25 @@
 }
 */
 
+- (UITableViewCellEditingStyle)tableView:(UITableView*)tableView 
+           editingStyleForRowAtIndexPath:(NSIndexPath*)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+
+-(NSString *)tableView:(UITableView *)tableView 
+titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"Hide";
+}
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the managed object for the given index path
         NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-        [context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+        [[self.fetchedResultsController objectAtIndexPath:indexPath] setValue:[NSNumber numberWithBool:YES] 
+                                                                       forKey:@"hidden"];
         
         // Save the context.
         NSError *error = nil;
@@ -274,10 +275,13 @@
 {
     NSManagedObject *selectedObject = [[self fetchedResultsController] objectAtIndexPath:indexPath];
     
-    [self.detailViewController showDetailOfWord:[selectedObject valueForKey:@"word"]
+    NSArray* words = [[selectedObject valueForKey:@"word"] componentsSeparatedByString:@","];
+    [self.detailViewController showDetailOfWord:[words objectAtIndex:0]
                                      ofLanguage:[selectedObject valueForKey:@"lang"]
                                                         andIncrementLookups:YES];
 }
+
+
 
 #pragma mark - Fetched results controller
 
@@ -289,23 +293,30 @@
         return __fetchedResultsController;
     }
     
-    // Set up the fetched results controller.
-    // Create the fetch request for the entity.
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    // Edit the entity name as appropriate.
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Entry" inManagedObjectContext:self.managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Entry" 
+                                              inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
     
-    // Set the batch size to a suitable number.
     [fetchRequest setFetchBatchSize:20];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"lang == %@", self.lang];
+    // 'hidden' attribute was added late and many of them were nil (undefined on Parse.com also)
+    // without hidden == nil, they won't be fetched.
+    NSString *lang = [self.prefs objectForKey:@"lang"];
+    NSPredicate *predicate = nil;
+    if ([self.prefs boolForKey:@"hideKnownWords"]) {
+        predicate = [NSPredicate predicateWithFormat:@"lang == %@ && (hidden == nil || hidden == NO)", lang];
+    } else {
+        predicate = [NSPredicate predicateWithFormat:@"lang == %@", lang];
+    }
     [fetchRequest setPredicate:predicate];
     
     NSSortDescriptor *sortDescriptor = nil;
     NSString *sectionNameKeyPath = nil;
-    if (_groupedBy == 0) {
+    
+    if ([self.prefs integerForKey:@"groupedBy"] == 0) {
         sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"updatedAt" ascending:NO];
+        // See NSDate+RelativeExtension
         sectionNameKeyPath = @"updatedAt.relativeDate";
     } else {
         sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"lookups" ascending:NO];
@@ -315,17 +326,15 @@
     [fetchRequest setSortDescriptors:sortDescriptors];
     
     NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] 
-                                                             initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:sectionNameKeyPath cacheName:nil];
+                                                             initWithFetchRequest:fetchRequest 
+                                                             managedObjectContext:self.managedObjectContext 
+                                                             sectionNameKeyPath:sectionNameKeyPath 
+                                                             cacheName:nil];
     aFetchedResultsController.delegate = self;
     self.fetchedResultsController = aFetchedResultsController;
     
 	NSError *error = nil;
 	if (![self.fetchedResultsController performFetch:&error]) {
-	    /*
-	     Replace this implementation with code to handle the error appropriately.
-
-	     abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-	     */
 	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 	    abort();
 	}
@@ -391,32 +400,28 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"config"]) {
-        ConfigViewController *controller = (ConfigViewController *) segue.destinationViewController;
+        UINavigationController *navController = (UINavigationController *) segue.destinationViewController;
+        ConfigViewController *controller = (ConfigViewController *) navController.topViewController;
         controller.delegate = self;
         controller.prefs = self.prefs;
+        _prefsBeforeConfig = [self.prefs dictionaryRepresentation];
     }
 }
 
-- (void)configViewDidCancel:(ConfigViewController *)controller
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
-- (void)configView:(ConfigViewController *)controller didSelectLanguage:(NSString*)lang
-      andGroupedBy:(NSInteger)groupedBy;
+
+- (void)configViewDidDone:(ConfigViewController *)controller
 {
-    [self.navigationController popViewControllerAnimated:YES];
-    if (![_lang isEqualToString:lang] || _groupedBy != groupedBy) {
-        _lang = lang;
-        _groupedBy = groupedBy;
-        [self.prefs setObject:_lang forKey:@"lang"];
-        [self.prefs setInteger:_groupedBy forKey:@"groupedBy"];
+    [self dismissModalViewControllerAnimated:YES];
+    
+    NSString *lang = [self.prefs objectForKey:@"lang"];
+    self.title = [_kLangFullNames valueForKey:lang];
+    
+    if (![_prefsBeforeConfig isEqualToDictionary:[self.prefs dictionaryRepresentation]]) {
+        // FIXME: is there more elegante way to do this ?
         self.fetchedResultsController = nil;
-        self.title = [_kLangFullNames valueForKey:lang];
         [self.tableView reloadData];
     }
 }
-
-
 
 @end

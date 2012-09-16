@@ -14,10 +14,12 @@
 
 #import "ConfigViewController.h"
 
-@interface FCMasterViewController : UITableViewController <NSFetchedResultsControllerDelegate, ConfigViewControllerDelegate> {
+@interface FCMasterViewController : UITableViewController <NSFetchedResultsControllerDelegate,
+                                                           ConfigViewControllerDelegate> 
+{
     NSDictionary *_kLangFullNames;
+    NSDictionary *_prefsBeforeConfig;
     __weak IBOutlet UILabel *_lastUpdatedAt;
-    NSInteger _groupedBy;
 }
 
 @property (weak, nonatomic) NSUserDefaults *prefs;
@@ -26,9 +28,13 @@
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
-@property (copy, nonatomic, setter=setLang:) NSString* lang;
-
 - (void)syncWithWebService;
 - (void)showLastUpdate;
+
+- (UITableViewCellEditingStyle)tableView:(UITableView*)tableView 
+           editingStyleForRowAtIndexPath:(NSIndexPath*)indexPath;
+
+-(NSString *)tableView:(UITableView *)tableView 
+titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
