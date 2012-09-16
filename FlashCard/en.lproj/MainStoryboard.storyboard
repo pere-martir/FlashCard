@@ -148,14 +148,17 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="svd-JR-vYX" detailTextLabel="iru-JZ-OGe" style="IBUITableViewCellStyleValue1" id="ZSw-0O-9Pw">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="svd-JR-vYX" detailTextLabel="iru-JZ-OGe" style="IBUITableViewCellStyleValue1" id="ZSw-0O-9Pw">
                                 <rect key="frame" x="0.0" y="78" width="320" height="46"/>
+                                <userGuides>
+                                    <userLayoutGuide location="160" affinity="minX"/>
+                                </userGuides>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="10" y="1" width="300" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="svd-JR-vYX">
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Title" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" id="svd-JR-vYX">
                                             <rect key="frame" x="10" y="11" width="35" height="21"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -447,46 +450,6 @@
     <resources>
         <image name="icon_settings.png" width="30" height="30"/>
     </resources>
-    <classes>
-        <class className="ConfigViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ConfigViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="done:"/>
-                <relationship kind="outlet" name="groupedBy" candidateClass="UISegmentedControl"/>
-                <relationship kind="outlet" name="hideKnownWords" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="lang" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="FCDetailViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FCDetailViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="didEndOnExit:"/>
-                <relationship kind="action" name="search:"/>
-                <relationship kind="outlet" name="_note" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="_tabBarItemWR" candidateClass="UITabBarItem"/>
-                <relationship kind="outlet" name="_tabbar" candidateClass="UITabBar"/>
-                <relationship kind="outlet" name="_toolbar" candidateClass="UIToolbar"/>
-                <relationship kind="outlet" name="_wordToBeSearched" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
-            </relationships>
-        </class>
-        <class className="FCMasterViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FCMasterViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="reload:"/>
-                <relationship kind="outlet" name="_lastUpdatedAt" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="FCSplitViewController" superclassName="UISplitViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FCSplitViewController.h"/>
-        </class>
-        <class className="LanguageViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LanguageViewController.h"/>
-        </class>
-        <class className="SDTableView" superclassName="UITableView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SDTableView.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

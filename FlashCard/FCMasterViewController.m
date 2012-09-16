@@ -283,6 +283,26 @@ titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
                                                         andIncrementLookups:YES];
 }
 
+/*
+- (NSString*)formatWordsToMultipleLines:(NSIndexPath *)indexPath 
+{
+        
+}
+*/
+
+// Don't do it. It's too expensive. It's called for each cell, even for those invisible.
+/*
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath 
+{    
+    NSManagedObject *selectedObject = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+    NSString *multiLineWords = [[selectedObject valueForKey:@"word"] stringByReplacingOccurrencesOfString:@"," withString:@"\n"];
+    
+    CGSize size = [multiLineWords
+                   sizeWithFont:[UIFont boldSystemFontOfSize:17] 
+                   constrainedToSize:CGSizeMake(300, CGFLOAT_MAX)];
+    return size.height + 10;
+}
+ */
 
 
 #pragma mark - Fetched results controller
@@ -390,13 +410,23 @@ titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     NSManagedObject *managedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [managedObject valueForKey:@"word"];
+    
+    NSString *words = [managedObject valueForKey:@"word"];
+    // arruffato,arruffare,affuffarsi -> arruffato,arruffare...
+    if ([words length] > 27) {
+        NSRange commaRange = [words rangeOfString:@"," options:NSBackwardsSearch];
+        if (commaRange.location != NSNotFound) {
+            words = [[words substringToIndex:commaRange.location] stringByAppendingString:@"..."];
+        }
+    }
+    cell.textLabel.text = words;
     
     if ([managedObject valueForKey:@"hidden"]) {
         cell.textLabel.textColor = [UIColor darkGrayColor];
     } else {
         cell.textLabel.textColor = [UIColor blackColor];
     }
+    //cell.textLabel.numberOfLines = 0;
     
     NSInteger lookups = [[managedObject valueForKey:@"lookups"] intValue];
     
