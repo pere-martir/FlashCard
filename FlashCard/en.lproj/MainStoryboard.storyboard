@@ -135,12 +135,12 @@
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="23" sceneMemberID="firstResponder"/>
                 <tableViewController storyboardIdentifier="" title="Master" clearsSelectionOnViewWillAppear="NO" id="19" customClass="FCMasterViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="20">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="20" customClass="SDTableView">
                         <rect key="frame" x="0.0" y="64" width="320" height="704"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-                        <label key="tableHeaderView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="Wty-8F-fLB">
+                        <label key="tableHeaderView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="Wty-8F-fLB">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -187,6 +187,11 @@
                         <barButtonItem key="leftBarButtonItem" image="icon_settings.png" style="plain" id="Az0-Im-yB0">
                             <connections>
                                 <segue destination="cig-FI-8HA" kind="modal" identifier="config" modalPresentationStyle="formSheet" modalTransitionStyle="flipHorizontal" id="3Ya-si-Ixc"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Reload" id="GRm-b2-sVd">
+                            <connections>
+                                <action selector="reload:" destination="19" id="BX3-nL-Yt7"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -442,6 +447,46 @@
     <resources>
         <image name="icon_settings.png" width="30" height="30"/>
     </resources>
+    <classes>
+        <class className="ConfigViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ConfigViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="done:"/>
+                <relationship kind="outlet" name="groupedBy" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="hideKnownWords" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="lang" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FCDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FCDetailViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="didEndOnExit:"/>
+                <relationship kind="action" name="search:"/>
+                <relationship kind="outlet" name="_note" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="_tabBarItemWR" candidateClass="UITabBarItem"/>
+                <relationship kind="outlet" name="_tabbar" candidateClass="UITabBar"/>
+                <relationship kind="outlet" name="_toolbar" candidateClass="UIToolbar"/>
+                <relationship kind="outlet" name="_wordToBeSearched" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
+            </relationships>
+        </class>
+        <class className="FCMasterViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FCMasterViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="reload:"/>
+                <relationship kind="outlet" name="_lastUpdatedAt" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FCSplitViewController" superclassName="UISplitViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FCSplitViewController.h"/>
+        </class>
+        <class className="LanguageViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LanguageViewController.h"/>
+        </class>
+        <class className="SDTableView" superclassName="UITableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SDTableView.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

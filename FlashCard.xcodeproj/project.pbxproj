@@ -45,6 +45,7 @@
 		68A2ACF215F49E6C009678FF /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A2ACF115F49E6C009678FF /* MobileCoreServices.framework */; };
 		68C7730F1604835B00715D5B /* ConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68C7730D1604835B00715D5B /* ConfigViewController.m */; };
 		68C773121604EBA400715D5B /* LanguageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68C773111604EBA400715D5B /* LanguageViewController.m */; };
+		68C7731A1605C03500715D5B /* SDTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 68C773191605C03500715D5B /* SDTableView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +113,8 @@
 		68C7730E1604835B00715D5B /* ConfigViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigViewController.h; sourceTree = "<group>"; };
 		68C773101604EBA400715D5B /* LanguageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LanguageViewController.h; sourceTree = "<group>"; };
 		68C773111604EBA400715D5B /* LanguageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LanguageViewController.m; sourceTree = "<group>"; };
+		68C773141605BF1D00715D5B /* SDTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDTableView.h; path = ../SDTableView.h; sourceTree = "<group>"; };
+		68C773191605C03500715D5B /* SDTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDTableView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +199,7 @@
 		68A2AC5915F36697009678FF /* FlashCard */ = {
 			isa = PBXGroup;
 			children = (
+				68C773141605BF1D00715D5B /* SDTableView.h */,
 				68C7730D1604835B00715D5B /* ConfigViewController.m */,
 				68C7730E1604835B00715D5B /* ConfigViewController.h */,
 				6807897715F97CC9009F3D8A /* WebView.h */,
@@ -221,6 +225,7 @@
 				6891B4571604746400755DBD /* Entry.m */,
 				68A2AC6815F36697009678FF /* FlashCard.xcdatamodeld */,
 				68A2AC5A15F36697009678FF /* Supporting Files */,
+				68C773191605C03500715D5B /* SDTableView.m */,
 			);
 			path = FlashCard;
 			sourceTree = "<group>";
@@ -380,6 +385,7 @@
 				6891B4581604746400755DBD /* Entry.m in Sources */,
 				68C7730F1604835B00715D5B /* ConfigViewController.m in Sources */,
 				68C773121604EBA400715D5B /* LanguageViewController.m in Sources */,
+				68C7731A1605C03500715D5B /* SDTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,14 +13,18 @@
 #import <CoreData/CoreData.h>
 
 #import "ConfigViewController.h"
+#import "SDTableView.h"
 
 @interface FCMasterViewController : UITableViewController <NSFetchedResultsControllerDelegate,
-                                                           ConfigViewControllerDelegate> 
+                                                           ConfigViewControllerDelegate,
+                                                           SDTableViewDelegate> 
 {
     NSDictionary *_kLangFullNames;
     NSDictionary *_prefsBeforeConfig;
     __weak IBOutlet UILabel *_lastUpdatedAt;
+    BOOL _syncedWithRemote;
 }
+- (IBAction)reload:(id)sender;
 
 @property (weak, nonatomic) NSUserDefaults *prefs;
 @property (strong, nonatomic) FCDetailViewController *detailViewController;

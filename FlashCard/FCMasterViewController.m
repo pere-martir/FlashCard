@@ -59,7 +59,6 @@
 	}
     
     [self showLastUpdate];
-    if ([PFUser currentUser]) [self syncWithWebService];
 }
 
 
@@ -74,9 +73,12 @@
 
     PFQuery *query = [PFQuery queryWithClassName:@"Entry"];
     [query whereKey:@"updatedAt" greaterThan:lastUpdatedAt];
-    // Use "paged-index" to fetch all - 
+    [query whereKey:@"lang" equalTo:[self.prefs objectForKey:@"lang"]];
+    
+    // TODO: Use "paged-index" to fetch all - 
     //  http://engineering.linkedin.com/voldemort/voldemort-collections-iterating-over-key-value-store
-    query.limit = 1000; // TODO: ???
+    query.limit = 1000; 
+    
     [query findObjectsInBackgroundWithBlock:^(NSArray *remoteEntries, NSError *error) {
         if (!error) {
             NSLog(@"Remote entries: %d", remoteEntries.count);
@@ -390,6 +392,12 @@ titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
     NSManagedObject *managedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = [managedObject valueForKey:@"word"];
     
+    if ([managedObject valueForKey:@"hidden"]) {
+        cell.textLabel.textColor = [UIColor darkGrayColor];
+    } else {
+        cell.textLabel.textColor = [UIColor blackColor];
+    }
+    
     NSInteger lookups = [[managedObject valueForKey:@"lookups"] intValue];
     
     // This is only for debugging
@@ -424,4 +432,19 @@ titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
     }
 }
 
+#pragma mark - SDTableViewDelegate
+
+- (void)willReloadData {}
+
+- (void)didReloadData 
+{
+    if ([PFUser currentUser]) [self syncWithWebService];
+}
+
+- (void)willLayoutSubviews {}
+- (void)didLayoutSubviews {}
+
+- (IBAction)reload:(id)sender {
+    if ([PFUser currentUser]) [self syncWithWebService];
+}
 @end
