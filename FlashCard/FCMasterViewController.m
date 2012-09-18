@@ -65,15 +65,13 @@
 - (void) syncWithWebService
 {
     NSAssert([PFUser currentUser], @"No logined user");
-    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-    //NSString* lang = [defaults stringForKey:@"lang"];
-    //if (lang == nil) lang = @"es";
-    NSDate* lastUpdatedAt = [defaults objectForKey:@"lastUpdatedAt"];
-    if (lastUpdatedAt == nil) lastUpdatedAt = [NSDate distantPast];
+
+    NSString *lang = [self.prefs objectForKey:@"lang"];
+    NSDictionary *lastUpdatedAt = [self.prefs dictionaryForKey:@"lastUpdatedAt"];
 
     PFQuery *query = [PFQuery queryWithClassName:@"Entry"];
-    [query whereKey:@"updatedAt" greaterThan:lastUpdatedAt];
-    [query whereKey:@"lang" equalTo:[self.prefs objectForKey:@"lang"]];
+    [query whereKey:@"updatedAt" greaterThan:[lastUpdatedAt objectForKey:lang]];
+    [query whereKey:@"lang" equalTo:lang];
     
     // TODO: Use "paged-index" to fetch all - 
     //  http://engineering.linkedin.com/voldemort/voldemort-collections-iterating-over-key-value-store
@@ -132,7 +130,10 @@
                 abort();
             } 
             
-            [self.prefs setObject:[NSDate date] forKey:@"lastUpdatedAt"];
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+            [dict addEntriesFromDictionary:lastUpdatedAt];
+            [dict setObject:[NSDate date] forKey:lang];
+            [self.prefs setObject:dict forKey:@"lastUpdatedAt"];
             
             // Console meesage at this line:
             // "No memory available to program now: unsafe to call malloc"
@@ -147,12 +148,14 @@
 
 - (void)showLastUpdate
 {
-    NSDate *d = [self.prefs objectForKey:@"lastUpdatedAt"];
-    if (d) {
+    NSString *lang = [self.prefs objectForKey:@"lang"];
+    NSDictionary *lastUpdatedAt = [self.prefs dictionaryForKey:@"lastUpdatedAt"];
+    NSDate *lastUpdateAtOfLang = [lastUpdatedAt objectForKey:lang];
+    if (!([lastUpdateAtOfLang isEqualToDate:[NSDate distantPast]])) {
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
         [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-        NSString *formattedDateString = [dateFormatter stringFromDate:d];
+        NSString *formattedDateString = [dateFormatter stringFromDate:lastUpdateAtOfLang];
         NSString *text = @"Last updated: ";
         _lastUpdatedAt.text = [text stringByAppendingString:formattedDateString];
     }

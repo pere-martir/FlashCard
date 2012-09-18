@@ -26,11 +26,16 @@
                   clientKey:@"sROhLgPK3LPOTIznObv1cTkavgEN0wwodZSoXBQ6"];
     //[PFUser logOut]; 
     
+    NSDictionary *lastUpdatedAt = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   [NSDate distantPast], @"es", 
+                                   [NSDate distantPast], @"it", nil];
     [[NSUserDefaults standardUserDefaults] registerDefaults:
      [NSDictionary dictionaryWithObjectsAndKeys:
       @"es", @"lang", 
       [NSNumber numberWithInt:0], @"groupedBy",
-      [NSNumber numberWithBool:FALSE], @"hideKnownWords", nil]];
+      [NSNumber numberWithBool:FALSE], @"hideKnownWords", 
+      lastUpdatedAt, @"lastUpdatedAt",
+      nil]];
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     
