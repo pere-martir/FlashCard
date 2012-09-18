@@ -9,7 +9,7 @@
 #import <Parse/Parse.h>
 #import "FCMasterViewController.h"
 #import "FCDetailViewController.h"
-
+#import "Entry.h"
 
 @interface FCMasterViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
@@ -284,12 +284,12 @@ titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSManagedObject *selectedObject = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+    Entry *entry = (Entry *)[[self fetchedResultsController] objectAtIndexPath:indexPath];
     
-    NSArray* words = [[selectedObject valueForKey:@"word"] componentsSeparatedByString:@","];
-    [self.detailViewController showDetailOfWord:[words objectAtIndex:0]
-                                     ofLanguage:[selectedObject valueForKey:@"lang"]
-                                                        andIncrementLookups:YES];
+    NSArray* words = [entry.word componentsSeparatedByString:@","];
+    [self.detailViewController showDetailOfWord:[words objectAtIndex:0] 
+                                ofEntryObjectId:entry.objectId 
+                                     ofLanguage:entry.lang]; 
 }
 
 /*

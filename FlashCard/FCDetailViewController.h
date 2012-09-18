@@ -33,6 +33,10 @@
 - (void)showDefinition;
 - (void)showWikipedia;
 
+- (void)showDetailOfWord:(NSString*)word 
+         ofEntryObjectId:(NSString*)entryObjectId 
+              ofLanguage:(NSString*)lang;
+
 - (void)showDetailOfWord:(NSString*)word ofLanguage:(NSString*)lang 
   andIncrementLookups:(BOOL)lookupsIncremented;
 

@@ -11,6 +11,7 @@
 		6803E61F15F71934003D790C /* es.png in Resources */ = {isa = PBXBuildFile; fileRef = 6803E61E15F71934003D790C /* es.png */; };
 		6803E62115F71D4C003D790C /* config.png in Resources */ = {isa = PBXBuildFile; fileRef = 6803E62015F71D4C003D790C /* config.png */; };
 		6803E63715F752DB003D790C /* NSDate+RelativeExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6803E63615F752DA003D790C /* NSDate+RelativeExtension.m */; };
+		680594FF1608C5B100D727CD /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 680594FE1608C5B100D727CD /* Note.m */; };
 		6807897C15F97EA6009F3D8A /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6807897B15F97EA6009F3D8A /* WebKit.framework */; };
 		684582D91601897100809CBD /* icon_settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 684582D81601897100809CBD /* icon_settings.png */; };
 		6891B4581604746400755DBD /* Entry.m in Sources */ = {isa = PBXBuildFile; fileRef = 6891B4571604746400755DBD /* Entry.m */; };
@@ -65,6 +66,8 @@
 		6803E62015F71D4C003D790C /* config.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = config.png; sourceTree = "<group>"; };
 		6803E63515F752DA003D790C /* NSDate+RelativeExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+RelativeExtension.h"; sourceTree = "<group>"; };
 		6803E63615F752DA003D790C /* NSDate+RelativeExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+RelativeExtension.m"; sourceTree = "<group>"; };
+		680594FD1608C5B100D727CD /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
+		680594FE1608C5B100D727CD /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
 		6807897715F97CC9009F3D8A /* WebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebView.h; sourceTree = "<group>"; };
 		6807897815F97CC9009F3D8A /* WAKView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WAKView.h; sourceTree = "<group>"; };
 		6807897915F97CC9009F3D8A /* UIWebDocumentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIWebDocumentView.h; sourceTree = "<group>"; };
@@ -224,6 +227,8 @@
 				6891B4561604746400755DBD /* Entry.h */,
 				6891B4571604746400755DBD /* Entry.m */,
 				68A2AC6815F36697009678FF /* FlashCard.xcdatamodeld */,
+				680594FD1608C5B100D727CD /* Note.h */,
+				680594FE1608C5B100D727CD /* Note.m */,
 				68A2AC5A15F36697009678FF /* Supporting Files */,
 				68C773191605C03500715D5B /* SDTableView.m */,
 			);
@@ -386,6 +391,7 @@
 				68C7730F1604835B00715D5B /* ConfigViewController.m in Sources */,
 				68C773121604EBA400715D5B /* LanguageViewController.m in Sources */,
 				68C7731A1605C03500715D5B /* SDTableView.m in Sources */,
+				680594FF1608C5B100D727CD /* Note.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

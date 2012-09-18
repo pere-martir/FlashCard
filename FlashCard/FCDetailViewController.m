@@ -120,10 +120,36 @@
     self.masterPopoverController = nil;
 }
 
-- (void)showDetailOfWord:(NSString*)word ofLanguage:(NSString*)lang andIncrementLookups:(BOOL)incrementLookup
+- (void)showDetailOfWord:(NSString*)word 
+         ofEntryObjectId:(NSString*)entryObjectId 
+              ofLanguage:(NSString*)lang 
+{
+    [self showDetailOfWord:word ofLanguage:lang andIncrementLookups:YES];
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Note"];
+    [query whereKey:@"entryObjectId" equalTo:entryObjectId];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *remoteNotes, NSError *error) {
+        NSMutableArray *notesArray = [[NSMutableArray alloc]init];
+        for (PFObject *remoteNote in remoteNotes) {
+            // Add bracket parenthesis to the matched substring in the sentence
+            NSString *note = [remoteNote objectForKey:@"note"];
+            NSString *substring = [remoteNote objectForKey:@"word"];
+            NSString *substirngWithBrackets = [NSString stringWithFormat:@"[%@]", substring];
+            NSString *highlightedNote = [note stringByReplacingOccurrencesOfString:substring 
+                                                                        withString:substirngWithBrackets];
+            [notesArray addObject:highlightedNote];
+        }
+        _note.text = [notesArray componentsJoinedByString:@"\n"];
+    }];    
+    
+}
+
+- (void)showDetailOfWord:(NSString*)word ofLanguage:(NSString*)lang 
+     andIncrementLookups:(BOOL)incrementLookup
 {
     _word = [word copy];
     _lang = [lang copy];
+    
     if (0 == _currentTab) {
         [self showEnglishTranslation:incrementLookup];
     } else if (1 == _currentTab) {
