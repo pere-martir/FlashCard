@@ -257,11 +257,13 @@
     }
     [entry setValue:[NSDate date] forKey:@"updatedAt"];
     
+    /*
     error = nil;
     if (![self.managedObjectContext save:&error]) {
         NSLog(@"Failed to update Entry");
         abort();
     } 
+    */
     
     if (addNewWord) {
         PFObject *remoteEntry = [PFObject objectWithClassName:@"Entry"];
@@ -283,12 +285,21 @@
             });
         }];
     } else {
+        
+        error = nil;
+        if (![self.managedObjectContext save:&error]) {
+            NSLog(@"Failed to update Entry");
+            abort();
+        }
+        
         PFQuery *query = [PFQuery queryWithClassName:@"Entry"];
         [query getObjectInBackgroundWithId:[entry valueForKey:@"objectId"] 
                          block:^(PFObject *remoteEntry, NSError *error) {
                              NSNumber *lookups = [entry valueForKey:@"lookups"];
                              if (!error) {
                                  [remoteEntry setObject:lookups forKey:@"lookups"];
+                                 [remoteEntry saveInBackground];
+                                 /*
                                  dispatch_async(dispatch_get_main_queue(), ^{
                                      NSError *error;
                                      if (![self.managedObjectContext save:&error]) {
@@ -296,6 +307,7 @@
                                          abort();
                                      }
                                  });
+                                 */
                              } else {
                                  // make it 'dirty' so that it will be synchronized
                                  // when the network connection is available.

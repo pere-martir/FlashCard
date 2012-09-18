@@ -253,9 +253,8 @@ titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the managed object for the given index path
         NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-        [[self.fetchedResultsController objectAtIndexPath:indexPath] setValue:[NSNumber numberWithBool:YES] 
-                                                                       forKey:@"hidden"];
-        
+        NSManagedObject *localEntry = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        [localEntry setValue:[NSNumber numberWithBool:YES] forKey:@"hidden"];        
         // Save the context.
         NSError *error = nil;
         if (![context save:&error]) {
@@ -267,6 +266,13 @@ titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
+        
+        PFQuery *query = [PFQuery queryWithClassName:@"Entry"];
+        [query getObjectInBackgroundWithId:[localEntry valueForKey:@"objectId"] 
+                                     block:^(PFObject *remoteEntry, NSError *error) {
+                                         [remoteEntry setObject:[NSNumber numberWithBool:YES] forKey:@"hidden"];
+                                         [remoteEntry saveInBackground];
+                                     }];
     }   
 }
 

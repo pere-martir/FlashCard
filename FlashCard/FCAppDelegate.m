@@ -33,7 +33,7 @@
      [NSDictionary dictionaryWithObjectsAndKeys:
       @"es", @"lang", 
       [NSNumber numberWithInt:0], @"groupedBy",
-      [NSNumber numberWithBool:FALSE], @"hideKnownWords", 
+      [NSNumber numberWithBool:TRUE], @"hideKnownWords", 
       lastUpdatedAt, @"lastUpdatedAt",
       nil]];
     
