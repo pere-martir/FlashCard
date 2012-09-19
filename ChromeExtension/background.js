@@ -63,12 +63,23 @@ chrome.extension.onConnect.addListener(function(port) {
     var Entry = Parse.Object.extend("Entry");
     var query = new Parse.Query(Entry);
     query.equalTo("user", Parse.User.current()); // This may not be necessary
-    query.equalTo("word", request.word);
+
+    /* Note that request.word may be a comma seperated string.
+       This is to avoid:
+        1. Find 'gratifica', WR gives you two words, so a new Entry will be create with 'words'='gratifica,gratificare'
+        2. Then find 'gratificare'. Using simply query.equalTo('word', 'gratificare') won't tell
+           you that this word should be considered as existing.
+        The same for swap step 1 and 2.
+    */
+    var W = '(' + request.word.replace(',', '|') + ')';
+    var regexp = ['^' + W + '$', '^' + W + ',', ',' + W + ',', ',' + W + '$'].join('|');
+    query.matches('word', new RegExp(regexp));
+
     query.equalTo("lang", request.lang);
     query.first({
-      success: function(entry_found) {
-        // It's necessary to create a closure here to capture 'port'
-        return function() {
+      // It's necessary to create a closure here to capture 'port'
+      success: function(port, request) {
+        return function(entry_found) {
           var words = request.word.split(',');
 
           // REFACTORING: this should be done in the content script
@@ -90,6 +101,12 @@ chrome.extension.onConnect.addListener(function(port) {
           }
 
           if (entry_found != undefined) {
+
+            // See the comment above of the regular expression to match 'word'
+            if (request.word.length > entry_found.get("word").length) {
+              entry_found.set("word", request.word);
+            }
+
             // do the calculation in local time
             var now = new Date();
             // entry_found.updateAt is a string of ISO 8601 format
@@ -102,14 +119,8 @@ chrome.extension.onConnect.addListener(function(port) {
             if (diff > 30 * 60000 || skip_check) { // 30 minutes
               lookups = lookups + 1;
               entry_found.increment("lookups");
-              entry_found.save(null, {
-                success: function(savedEntry) {
-                  return function() {
-                    //find_matched_sentences(savedEntry.id, substrings, false);
-                  }();
-                }
-              });
             } 
+            entry_found.save();
             port.postMessage({'word': words, 'existed': lookups});
             find_matched_sentences(entry_found.id, substrings, false);
           } else { // reach here also when there is no current user 
@@ -129,8 +140,9 @@ chrome.extension.onConnect.addListener(function(port) {
               }
             });
           }
-        }(port);
-      } // success
+
+        }; // return function(entry_found)
+      }(port, request) // success
     }); // first
   }); // addListener
 });  

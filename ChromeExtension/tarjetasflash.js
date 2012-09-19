@@ -90,7 +90,8 @@ chrome.extension.onConnect.addListener(function(port) {
           // These quotation marks are used a lot in Italian 
           var LEFT_QUOTE = '\u00AB'; // left_pointing_double_angle_quotation_mark
           var RIGHT_QUOTE = '\u00BB'; // right_pointing_double_angle_quotation_mark
-          var LPS = '[' + LETTER + LEFT_QUOTE + RIGHT_QUOTE + ' :;\(\)"\',0-9\-]'; // letter, punctions, space, and '
+          var RIGHT_SINGLE_QUOTE = '\u2019'; // right single quotation mark (italian)
+          var LPS = '[' + LETTER + LEFT_QUOTE + RIGHT_QUOTE + RIGHT_SINGLE_QUOTE + ' :;\(\)"\',0-9\-]'; // letter, punctions, space, and ' 
           var E  = '[\.\?!]'; // end of sentence, !
           var regexp = new RegExp(E + '*(' + LPS + '*' + NL + '+' + word + NL + '+' + LPS + '*' + E + '?)', 'ig');
           var match;
