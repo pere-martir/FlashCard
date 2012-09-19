@@ -116,14 +116,14 @@
     NSDate *latestUpdatedAt = nil;
     NSArray *sortedNotes = nil;
     if ([notes count] > 0) {
-        NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"updateAt" ascending:NO];
+        NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"updatedAt" ascending:NO];
         sortedNotes = [notes sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDesc]];
-        Note *note = (Note *)[sortedNotes lastObject];
+        Note *note = (Note *)[sortedNotes objectAtIndex:0];
         latestUpdatedAt = note.updatedAt;
     }
     
     PFQuery *query = [PFQuery queryWithClassName:@"Note"];
-    [query orderByDescending:@"updatedAt"];
+    [query orderByAscending:@"updatedAt"];
     [query whereKey:@"entryObjectId" equalTo:entry.objectId];
     if (latestUpdatedAt) [query whereKey:@"updatedAt" greaterThan:latestUpdatedAt];
     [query findObjectsInBackgroundWithBlock:^(NSArray *remoteNotes, NSError *error) {
@@ -131,6 +131,7 @@
         for (PFObject *remoteNote in remoteNotes) {
             Note *newLocalNote = (Note *)[NSEntityDescription insertNewObjectForEntityForName:@"Note"       
                                                                        inManagedObjectContext:self.managedObjectContext];
+            newLocalNote.entry = entry;
             newLocalNote.objectId = remoteNote.objectId;
             newLocalNote.createdAt = remoteNote.createdAt;
             newLocalNote.updatedAt = remoteNote.updatedAt;
