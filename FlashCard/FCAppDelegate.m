@@ -31,7 +31,7 @@
                                    [NSDate distantPast], @"it", nil];
     [[NSUserDefaults standardUserDefaults] registerDefaults:
      [NSDictionary dictionaryWithObjectsAndKeys:
-      @"es", @"lang", 
+      @"it", @"lang", 
       [NSNumber numberWithInt:0], @"groupedBy",
       [NSNumber numberWithBool:TRUE], @"hideKnownWords", 
       lastUpdatedAt, @"lastUpdatedAt",

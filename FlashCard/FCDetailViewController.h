@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class Entry;
+
 @interface FCDetailViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate, UITabBarDelegate> {
     int _currentTab;
     NSString* _word;
@@ -33,9 +35,8 @@
 - (void)showDefinition;
 - (void)showWikipedia;
 
-- (void)showDetailOfWord:(NSString*)word 
-         ofEntryObjectId:(NSString*)entryObjectId 
-              ofLanguage:(NSString*)lang;
+- (void)showEntry:(Entry*)entry;
+- (void)showNotes:(NSArray*)notes;
 
 - (void)showDetailOfWord:(NSString*)word ofLanguage:(NSString*)lang 
   andIncrementLookups:(BOOL)lookupsIncremented;
@@ -44,6 +45,5 @@
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item;
 
-- (void)progressFinished:(NSNotification*)theNotification;
 - (void)incrementLookupOf:(NSString*)word;
 @end

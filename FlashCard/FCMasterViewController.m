@@ -70,9 +70,9 @@
     NSDictionary *lastUpdatedAt = [self.prefs dictionaryForKey:@"lastUpdatedAt"];
 
     PFQuery *query = [PFQuery queryWithClassName:@"Entry"];
+    [query orderByAscending:@"updatedAt"];
     [query whereKey:@"updatedAt" greaterThan:[lastUpdatedAt objectForKey:lang]];
     [query whereKey:@"lang" equalTo:lang];
-    
     // TODO: Use "paged-index" to fetch all - 
     //  http://engineering.linkedin.com/voldemort/voldemort-collections-iterating-over-key-value-store
     query.limit = 1000; 
@@ -284,11 +284,7 @@ titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Entry *entry = (Entry *)[[self fetchedResultsController] objectAtIndexPath:indexPath];
-    
-    NSArray* words = [entry.word componentsSeparatedByString:@","];
-    [self.detailViewController showDetailOfWord:[words objectAtIndex:0] 
-                                ofEntryObjectId:entry.objectId 
-                                     ofLanguage:entry.lang]; 
+    [self.detailViewController showEntry:entry]; 
 }
 
 /*

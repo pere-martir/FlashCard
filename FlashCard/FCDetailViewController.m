@@ -7,9 +7,8 @@
 //
 
 #import "FCDetailViewController.h"
-#import "WebView.h"
-#import "UIWebDocumentView.h"
 #import "Entry.h"
+#import "Note.h"
 
 @interface FCDetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
@@ -45,25 +44,12 @@
     
     // http://stackoverflow.com/questions/10996028/uiwebview-when-did-a-page-really-finish-loading
     // http://winxblog.com/2009/02/iphone-uiwebview-estimated-progress/
-    UIWebDocumentView *documentView = [self.webView _documentView];
-    // This is private of WebKit
-    WebView *coreWebView = [documentView webView];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(progressFinished:) 
-                                                 name:@"WebProgressFinishedNotification" 
-                                               object:coreWebView];    
-    
+        
     self.webView.delegate = self;
 }
 
 - (void)viewDidUnload
 {
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self 
-                                                    name:@"WebProgressFinishedNotification" 
-                                                  object:nil];
-    
     [self setWebView:nil];
     _tabbar = nil;
     _wordToBeSearched = nil;
@@ -121,28 +107,72 @@
     self.masterPopoverController = nil;
 }
 
-- (void)showDetailOfWord:(NSString*)word 
-         ofEntryObjectId:(NSString*)entryObjectId 
-              ofLanguage:(NSString*)lang 
+- (void)showEntry:(Entry*)entry 
 {
-    [self showDetailOfWord:word ofLanguage:lang andIncrementLookups:YES];
+    // firstWord is used to create the URL of the page of WordReference
+    NSString* firstWord = [[entry.word componentsSeparatedByString:@","] objectAtIndex:0];
+    [self showDetailOfWord:firstWord ofLanguage:entry.lang andIncrementLookups:YES];
+    NSSet *notes = entry.notes;
+    NSDate *latestUpdatedAt = nil;
+    NSArray *sortedNotes = nil;
+    if ([notes count] > 0) {
+        NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"updateAt" ascending:NO];
+        sortedNotes = [notes sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDesc]];
+        Note *note = (Note *)[sortedNotes lastObject];
+        latestUpdatedAt = note.updatedAt;
+    }
     
     PFQuery *query = [PFQuery queryWithClassName:@"Note"];
-    [query whereKey:@"entryObjectId" equalTo:entryObjectId];
+    [query orderByDescending:@"updatedAt"];
+    [query whereKey:@"entryObjectId" equalTo:entry.objectId];
+    if (latestUpdatedAt) [query whereKey:@"updatedAt" greaterThan:latestUpdatedAt];
     [query findObjectsInBackgroundWithBlock:^(NSArray *remoteNotes, NSError *error) {
-        NSMutableArray *notesArray = [[NSMutableArray alloc]init];
+        NSMutableArray *allNotes = [NSMutableArray arrayWithArray:sortedNotes];
         for (PFObject *remoteNote in remoteNotes) {
-            // Add bracket parenthesis to the matched substring in the sentence
-            NSString *note = [remoteNote objectForKey:@"note"];
-            NSString *substring = [remoteNote objectForKey:@"word"];
-            NSString *substirngWithBrackets = [NSString stringWithFormat:@"[%@]", substring];
-            NSString *highlightedNote = [note stringByReplacingOccurrencesOfString:substring 
-                                                                        withString:substirngWithBrackets];
-            [notesArray addObject:highlightedNote];
+            Note *newLocalNote = (Note *)[NSEntityDescription insertNewObjectForEntityForName:@"Note"       
+                                                                       inManagedObjectContext:self.managedObjectContext];
+            newLocalNote.objectId = remoteNote.objectId;
+            newLocalNote.createdAt = remoteNote.createdAt;
+            newLocalNote.updatedAt = remoteNote.updatedAt;
+            newLocalNote.entryObjectId = [remoteNote objectForKey:@"entryObjectId"];
+            newLocalNote.note = [remoteNote objectForKey:@"note"];
+            if ([[remoteNote allKeys] containsObject:@"word"]) 
+                newLocalNote.word = [remoteNote objectForKey:@"word"];
+            if ([[remoteNote allKeys] containsObject:@"title"]) 
+                newLocalNote.title = [remoteNote objectForKey:@"title"];
+            if ([[remoteNote allKeys] containsObject:@"url"]) 
+                newLocalNote.url = [remoteNote objectForKey:@"url"];
+            [allNotes insertObject:newLocalNote atIndex:0];
         }
-        _note.text = [notesArray componentsJoinedByString:@"\n"];
+        
+        error = nil;
+        if (![self.managedObjectContext save:&error]) {
+            NSLog(@"Failed to save to Core Data (objectId)");
+            abort();
+        } else {
+            // TODO:perhaps [self appendNotes] is better ?
+            // Or even beter, monitoring the changes of Core Data
+            [self showNotes: allNotes]; 
+        }
     }];    
-    
+}
+
+- (void)showNotes:(NSArray*)notes
+{
+    NSMutableArray *notesArray = [[NSMutableArray alloc]init];
+    for (Note *note in notes) {
+        // Add bracket parenthesis to the matched substring in the sentence
+        NSString *n = note.note;
+        if (note.word) {
+            NSString *substirngWithBrackets = [NSString stringWithFormat:@"[%@]", note.word];
+            NSString *highlightedNote = [n stringByReplacingOccurrencesOfString:note.word 
+                                                                     withString:substirngWithBrackets];
+            [notesArray addObject:highlightedNote];
+        } else {
+            [notesArray addObject:n];
+        }
+    }
+    _note.text = [notesArray componentsJoinedByString:@"\n"];
 }
 
 - (void)showDetailOfWord:(NSString*)word ofLanguage:(NSString*)lang 
@@ -276,29 +306,13 @@
         entry.lookups = [NSNumber numberWithInt:1];
         entry.word = word;
         entry.lang = _lang;
-        /*
-        [entry setValue:@"" forKey:@"objectId"]; // ???
-        [entry setValue:[NSDate date] forKey:@"createdAt"];
-        [entry setValue:[NSNumber numberWithInt:1] forKey:@"lookups"];
-        [entry setValue:word forKey:@"word"];
-        [entry setValue:_lang forKey:@"lang"];*/
     } else {
         NSAssert([result count] == 1, @"more than on result");
         entry = (Entry *)[result lastObject];
         int lookups = [[entry valueForKey:@"lookups"] intValue] + 1;
-        //[entry setValue:[NSNumber numberWithInt:lookups] forKey:@"lookups"];
         entry.lookups = [NSNumber numberWithInt:lookups];
     }
-    // [entry setValue:[NSDate date] forKey:@"updatedAt"];
     entry.updatedAt = [NSDate date];
-    
-    /*
-    error = nil;
-    if (![self.managedObjectContext save:&error]) {
-        NSLog(@"Failed to update Entry");
-        abort();
-    } 
-    */
     
     if (addNewWord) {
         PFObject *remoteEntry = [PFObject objectWithClassName:@"Entry"];
@@ -335,15 +349,6 @@
                              if (!error) {
                                  [remoteEntry setObject:lookups forKey:@"lookups"];
                                  [remoteEntry saveInBackground];
-                                 /*
-                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                     NSError *error;
-                                     if (![self.managedObjectContext save:&error]) {
-                                         NSLog(@"Failed to update lookups");
-                                         abort();
-                                     }
-                                 });
-                                 */
                              } else {
                                  // make it 'dirty' so that it will be synchronized
                                  // when the network connection is available.
@@ -364,18 +369,6 @@
         _currentTab = tag;
         [self showDetailOfWord:_word ofLanguage:_lang andIncrementLookups:NO];
     }
-}
-
-#pragma mark - WebViewProgressEstimateChangedNotification 
-
-- (void)progressFinished:(NSNotification*)theNotification {
-
-//    int progress = (int)[[theNotification object] estimatedProgress];
-
-//    NSLog(@"progressEstimateChanged: %d", progress);
-    NSLog(@"progressFinished ***");
-	
-    
 }
 
 @end
