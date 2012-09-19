@@ -97,23 +97,22 @@
             int currentIndex = 0;
             
             for (PFObject *remoteEntry in remoteEntries) {
-                NSManagedObject *localEntry = nil;
+                Entry *localEntry = nil;
                 if ([localEntries count] > currentIndex) {
-                    localEntry = [localEntries objectAtIndex:currentIndex];
+                    localEntry = (Entry *)[localEntries objectAtIndex:currentIndex];
                     
-                    NSString * objectId = [localEntry valueForKey:@"objectId"];
+                    NSString * objectId = localEntry.objectId; //[localEntry valueForKey:@"objectId"];
                     if ([objectId isEqualToString: [remoteEntry valueForKey:@"objectId"]]) {
                         NSLog(@"Update: %@", objectId);
-                        [localEntry setValue:remoteEntry.updatedAt forKey:@"updatedAt"];
-                        [localEntry setValue:[remoteEntry objectForKey:@"lookups"] forKey:@"lookups"];
+                        localEntry.updatedAt = remoteEntry.updatedAt;
+                        localEntry.lookups = [remoteEntry objectForKey:@"lookups"];
                     }
                 } else {
-                    NSManagedObject *newLocalEntry = [NSEntityDescription insertNewObjectForEntityForName:@"Entry"       
-                                                                              inManagedObjectContext:self.managedObjectContext];
-
-                    [newLocalEntry setValue:remoteEntry.createdAt forKey:@"createdAt"];
-                    [newLocalEntry setValue:remoteEntry.updatedAt forKey:@"updatedAt"];
-                    [newLocalEntry setValue:remoteEntry.objectId  forKey:@"objectId"];
+                    Entry *newLocalEntry = [NSEntityDescription insertNewObjectForEntityForName:@"Entry"       
+                                                                         inManagedObjectContext:self.managedObjectContext];
+                    newLocalEntry.createdAt = remoteEntry.createdAt;
+                    newLocalEntry.updatedAt = remoteEntry.updatedAt;
+                    newLocalEntry.objectId = remoteEntry.objectId;
                     
                     for (id key in [remoteEntry allKeys]) {
                         if (![key isEqualToString:@"user"]) {
@@ -253,7 +252,7 @@ titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the managed object for the given index path
         NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-        NSManagedObject *localEntry = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        Entry *localEntry = (Entry *)[self.fetchedResultsController objectAtIndexPath:indexPath];
         [localEntry setValue:[NSNumber numberWithBool:YES] forKey:@"hidden"];        
         // Save the context.
         NSError *error = nil;
@@ -268,7 +267,7 @@ titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
         }
         
         PFQuery *query = [PFQuery queryWithClassName:@"Entry"];
-        [query getObjectInBackgroundWithId:[localEntry valueForKey:@"objectId"] 
+        [query getObjectInBackgroundWithId:localEntry.objectId
                                      block:^(PFObject *remoteEntry, NSError *error) {
                                          [remoteEntry setObject:[NSNumber numberWithBool:YES] forKey:@"hidden"];
                                          [remoteEntry saveInBackground];
@@ -433,9 +432,9 @@ titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    NSManagedObject *managedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    Entry *entry = (Entry *)[self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    NSString *words = [managedObject valueForKey:@"word"];
+    NSString *words = entry.word;
     // arruffato,arruffare,affuffarsi -> arruffato,arruffare...
     if ([words length] > 27) {
         NSRange commaRange = [words rangeOfString:@"," options:NSBackwardsSearch];
@@ -445,14 +444,14 @@ titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
     }
     cell.textLabel.text = words;
     
-    if ([managedObject valueForKey:@"hidden"]) {
+    if (entry.hidden) {
         cell.textLabel.textColor = [UIColor darkGrayColor];
     } else {
         cell.textLabel.textColor = [UIColor blackColor];
     }
     //cell.textLabel.numberOfLines = 0;
     
-    NSInteger lookups = [[managedObject valueForKey:@"lookups"] intValue];
+    NSInteger lookups = [entry.lookups intValue];
     
     // This is only for debugging
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", lookups];

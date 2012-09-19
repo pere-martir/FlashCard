@@ -9,6 +9,7 @@
 #import "FCDetailViewController.h"
 #import "WebView.h"
 #import "UIWebDocumentView.h"
+#import "Entry.h"
 
 @interface FCDetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
@@ -264,24 +265,32 @@
     NSError *error = nil;
     NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
     NSAssert([result count] <= 1, @"more than one entry found of the same word");
-    NSManagedObject *entry = nil;
+    Entry *entry = nil;
     BOOL addNewWord = FALSE;
     if ([result count] == 0) addNewWord = TRUE;
     if (addNewWord) {
         entry = [NSEntityDescription insertNewObjectForEntityForName:@"Entry"       
                                               inManagedObjectContext:self.managedObjectContext];
+        entry.objectId = @"";
+        entry.createdAt = [NSDate date];
+        entry.lookups = [NSNumber numberWithInt:1];
+        entry.word = word;
+        entry.lang = _lang;
+        /*
         [entry setValue:@"" forKey:@"objectId"]; // ???
         [entry setValue:[NSDate date] forKey:@"createdAt"];
         [entry setValue:[NSNumber numberWithInt:1] forKey:@"lookups"];
         [entry setValue:word forKey:@"word"];
-        [entry setValue:_lang forKey:@"lang"];
+        [entry setValue:_lang forKey:@"lang"];*/
     } else {
         NSAssert([result count] == 1, @"more than on result");
-        entry = [result lastObject];
+        entry = (Entry *)[result lastObject];
         int lookups = [[entry valueForKey:@"lookups"] intValue] + 1;
-        [entry setValue:[NSNumber numberWithInt:lookups] forKey:@"lookups"];
+        //[entry setValue:[NSNumber numberWithInt:lookups] forKey:@"lookups"];
+        entry.lookups = [NSNumber numberWithInt:lookups];
     }
-    [entry setValue:[NSDate date] forKey:@"updatedAt"];
+    // [entry setValue:[NSDate date] forKey:@"updatedAt"];
+    entry.updatedAt = [NSDate date];
     
     /*
     error = nil;
@@ -298,7 +307,8 @@
         [remoteEntry setObject:word forKey:@"word"];
         [remoteEntry setObject:[NSNumber numberWithInt:1] forKey:@"lookups"];
         [remoteEntry saveInBackgroundWithBlock:^(BOOL succeeded, NSError* error) {
-            [entry setValue:remoteEntry.objectId forKey:@"objectId"];
+            //[entry setValue:remoteEntry.objectId forKey:@"objectId"];
+            entry.objectId = remoteEntry.objectId;
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSError *error;
                 if (![self.managedObjectContext save:&error]) {
@@ -319,9 +329,9 @@
         }
         
         PFQuery *query = [PFQuery queryWithClassName:@"Entry"];
-        [query getObjectInBackgroundWithId:[entry valueForKey:@"objectId"] 
+        [query getObjectInBackgroundWithId:entry.objectId //[entry valueForKey:@"objectId"] 
                          block:^(PFObject *remoteEntry, NSError *error) {
-                             NSNumber *lookups = [entry valueForKey:@"lookups"];
+                             NSNumber *lookups = entry.lookups; //[entry valueForKey:@"lookups"];
                              if (!error) {
                                  [remoteEntry setObject:lookups forKey:@"lookups"];
                                  [remoteEntry saveInBackground];
