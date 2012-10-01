@@ -12,6 +12,7 @@
 		6803E62115F71D4C003D790C /* config.png in Resources */ = {isa = PBXBuildFile; fileRef = 6803E62015F71D4C003D790C /* config.png */; };
 		6803E63715F752DB003D790C /* NSDate+RelativeExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6803E63615F752DA003D790C /* NSDate+RelativeExtension.m */; };
 		6807897C15F97EA6009F3D8A /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6807897B15F97EA6009F3D8A /* WebKit.framework */; };
+		68442EFF161A1E7800E47C86 /* NotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68442EFE161A1E7800E47C86 /* NotesViewController.m */; };
 		684582D91601897100809CBD /* icon_settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 684582D81601897100809CBD /* icon_settings.png */; };
 		68733B611609E7FD00892E1A /* Entry.m in Sources */ = {isa = PBXBuildFile; fileRef = 68733B601609E7FD00892E1A /* Entry.m */; };
 		68733B671609EBE000892E1A /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 68733B661609EBE000892E1A /* Note.m */; };
@@ -47,14 +48,9 @@
 		68C7730F1604835B00715D5B /* ConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68C7730D1604835B00715D5B /* ConfigViewController.m */; };
 		68C773121604EBA400715D5B /* LanguageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68C773111604EBA400715D5B /* LanguageViewController.m */; };
 		68C7731A1605C03500715D5B /* SDTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 68C773191605C03500715D5B /* SDTableView.m */; };
+		68C83C49161A24CF00A1CFF9 /* NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 68C83C48161A24CF00A1CFF9 /* NoteCell.m */; };
 		68FB0F7A160A09C0007D81A8 /* background.html in Resources */ = {isa = PBXBuildFile; fileRef = 68FB0F64160A09C0007D81A8 /* background.html */; };
-		68FB0F7B160A09C0007D81A8 /* background.js in Sources */ = {isa = PBXBuildFile; fileRef = 68FB0F65160A09C0007D81A8 /* background.js */; };
-		68FB0F7C160A09C0007D81A8 /* jquery-1.6.1.js in Sources */ = {isa = PBXBuildFile; fileRef = 68FB0F66160A09C0007D81A8 /* jquery-1.6.1.js */; };
-		68FB0F7D160A09C0007D81A8 /* jquery-1.8.1.min.js in Sources */ = {isa = PBXBuildFile; fileRef = 68FB0F67160A09C0007D81A8 /* jquery-1.8.1.min.js */; };
-		68FB0F7E160A09C0007D81A8 /* jquery.blockUI.js in Sources */ = {isa = PBXBuildFile; fileRef = 68FB0F68160A09C0007D81A8 /* jquery.blockUI.js */; };
-		68FB0F7F160A09C0007D81A8 /* jquery.couch.js in Sources */ = {isa = PBXBuildFile; fileRef = 68FB0F69160A09C0007D81A8 /* jquery.couch.js */; };
 		68FB0F80160A09C0007D81A8 /* login.html in Resources */ = {isa = PBXBuildFile; fileRef = 68FB0F6A160A09C0007D81A8 /* login.html */; };
-		68FB0F81160A09C0007D81A8 /* login.js in Sources */ = {isa = PBXBuildFile; fileRef = 68FB0F6B160A09C0007D81A8 /* login.js */; };
 		68FB0F82160A09C0007D81A8 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 68FB0F6C160A09C0007D81A8 /* manifest.json */; };
 		68FB0F83160A09C0007D81A8 /* Math-plus-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 68FB0F6D160A09C0007D81A8 /* Math-plus-icon.png */; };
 		68FB0F84160A09C0007D81A8 /* Number-0-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 68FB0F6E160A09C0007D81A8 /* Number-0-icon.png */; };
@@ -67,8 +63,6 @@
 		68FB0F8B160A09C0007D81A8 /* Number-7-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 68FB0F75160A09C0007D81A8 /* Number-7-icon.png */; };
 		68FB0F8C160A09C0007D81A8 /* Number-8-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 68FB0F76160A09C0007D81A8 /* Number-8-icon.png */; };
 		68FB0F8D160A09C0007D81A8 /* Number-9-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 68FB0F77160A09C0007D81A8 /* Number-9-icon.png */; };
-		68FB0F8E160A09C0007D81A8 /* parse-1.0.21.min.js in Sources */ = {isa = PBXBuildFile; fileRef = 68FB0F78160A09C0007D81A8 /* parse-1.0.21.min.js */; };
-		68FB0F8F160A09C0007D81A8 /* tarjetasflash.js in Sources */ = {isa = PBXBuildFile; fileRef = 68FB0F79160A09C0007D81A8 /* tarjetasflash.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +83,8 @@
 		6803E63515F752DA003D790C /* NSDate+RelativeExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+RelativeExtension.h"; sourceTree = "<group>"; };
 		6803E63615F752DA003D790C /* NSDate+RelativeExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+RelativeExtension.m"; sourceTree = "<group>"; };
 		6807897B15F97EA6009F3D8A /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/PrivateFrameworks/WebKit.framework; sourceTree = SDKROOT; };
+		68442EFD161A1E7800E47C86 /* NotesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesViewController.h; sourceTree = "<group>"; };
+		68442EFE161A1E7800E47C86 /* NotesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesViewController.m; sourceTree = "<group>"; };
 		684582D81601897100809CBD /* icon_settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_settings.png; path = ../../../Downloads/twg_iphone_toolbar_icons/icon_settings.png; sourceTree = "<group>"; };
 		68733B5F1609E7FD00892E1A /* Entry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entry.h; sourceTree = "<group>"; };
 		68733B601609E7FD00892E1A /* Entry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entry.m; sourceTree = "<group>"; };
@@ -136,6 +132,8 @@
 		68C773111604EBA400715D5B /* LanguageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LanguageViewController.m; sourceTree = "<group>"; };
 		68C773141605BF1D00715D5B /* SDTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDTableView.h; path = ../SDTableView.h; sourceTree = "<group>"; };
 		68C773191605C03500715D5B /* SDTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDTableView.m; sourceTree = "<group>"; };
+		68C83C47161A24CE00A1CFF9 /* NoteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCell.h; sourceTree = "<group>"; };
+		68C83C48161A24CF00A1CFF9 /* NoteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCell.m; sourceTree = "<group>"; };
 		68FB0F64160A09C0007D81A8 /* background.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = background.html; sourceTree = "<group>"; };
 		68FB0F65160A09C0007D81A8 /* background.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = background.js; sourceTree = "<group>"; };
 		68FB0F66160A09C0007D81A8 /* jquery-1.6.1.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-1.6.1.js"; sourceTree = "<group>"; };
@@ -243,6 +241,10 @@
 		68A2AC5915F36697009678FF /* FlashCard */ = {
 			isa = PBXGroup;
 			children = (
+				68C83C47161A24CE00A1CFF9 /* NoteCell.h */,
+				68C83C48161A24CF00A1CFF9 /* NoteCell.m */,
+				68442EFD161A1E7800E47C86 /* NotesViewController.h */,
+				68442EFE161A1E7800E47C86 /* NotesViewController.m */,
 				68C773141605BF1D00715D5B /* SDTableView.h */,
 				68C7730D1604835B00715D5B /* ConfigViewController.m */,
 				68C7730E1604835B00715D5B /* ConfigViewController.h */,
@@ -472,14 +474,8 @@
 				68C7731A1605C03500715D5B /* SDTableView.m in Sources */,
 				68733B611609E7FD00892E1A /* Entry.m in Sources */,
 				68733B671609EBE000892E1A /* Note.m in Sources */,
-				68FB0F7B160A09C0007D81A8 /* background.js in Sources */,
-				68FB0F7C160A09C0007D81A8 /* jquery-1.6.1.js in Sources */,
-				68FB0F7D160A09C0007D81A8 /* jquery-1.8.1.min.js in Sources */,
-				68FB0F7E160A09C0007D81A8 /* jquery.blockUI.js in Sources */,
-				68FB0F7F160A09C0007D81A8 /* jquery.couch.js in Sources */,
-				68FB0F81160A09C0007D81A8 /* login.js in Sources */,
-				68FB0F8E160A09C0007D81A8 /* parse-1.0.21.min.js in Sources */,
-				68FB0F8F160A09C0007D81A8 /* tarjetasflash.js in Sources */,
+				68442EFF161A1E7800E47C86 /* NotesViewController.m in Sources */,
+				68C83C49161A24CF00A1CFF9 /* NoteCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

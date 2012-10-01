@@ -7,6 +7,7 @@
 //
 
 #import "FCDetailViewController.h"
+#import "NotesViewController.h"
 #import "Entry.h"
 #import "Note.h"
 
@@ -17,7 +18,6 @@
 @implementation FCDetailViewController
 
 @synthesize webView = _webView;
-
 @synthesize masterPopoverController = _masterPopoverController;
 @synthesize prefs = _prefs;
 @synthesize managedObjectContext = _managedObjectContext;
@@ -39,7 +39,7 @@
     _currentWordHandled = FALSE;
     _currentTab = 0;
     _lang = [[self.prefs stringForKey:@"lang"] copy];
-
+    _note.text = @"";
     _tabbar.selectedItem = [_tabbar.items objectAtIndex:_currentTab];
     
     // http://stackoverflow.com/questions/10996028/uiwebview-when-did-a-page-really-finish-loading
@@ -57,6 +57,7 @@
     _tabBarItemWR = nil;
     _toolbar = nil;
     _note = nil;
+    _showMoreNotes = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -111,7 +112,9 @@
 {
     // firstWord is used to create the URL of the page of WordReference
     NSString* firstWord = [[entry.word componentsSeparatedByString:@","] objectAtIndex:0];
+    _entryObjectId = entry.objectId;
     [self showDetailOfWord:firstWord ofLanguage:entry.lang andIncrementLookups:YES];
+    
     NSSet *notes = entry.notes;
     NSDate *latestUpdatedAt = nil;
     NSArray *sortedNotes = nil;
@@ -152,7 +155,7 @@
             abort();
         } else {
             // TODO:perhaps [self appendNotes] is better ?
-            // Or even beter, monitoring the changes of Core Data
+            // Or even beter, monitoring the changes of Core Data -> Observer
             [self showNotes: allNotes]; 
         }
     }];    
@@ -174,6 +177,7 @@
         }
     }
     _note.text = [notesArray componentsJoinedByString:@"\n"];
+    _showMoreNotes.hidden = NO;
 }
 
 - (void)showDetailOfWord:(NSString*)word ofLanguage:(NSString*)lang 
@@ -360,6 +364,19 @@
     }
     
 }
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"ShowNotes"]) {
+        NotesViewController *controller = (NotesViewController *) segue.destinationViewController;
+        //controller.delegate = self;
+        controller.managedObjectContext = self.managedObjectContext;
+        assert(_entryObjectId != nil);
+        controller.entryObjectId = _entryObjectId;
+    }
+}
+
+
 
 #pragma mark - UITabBarDelegate
 

@@ -12,6 +12,7 @@
 
 @interface FCDetailViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate, UITabBarDelegate> {
     int _currentTab;
+    NSString* _entryObjectId;
     NSString* _word;
     NSString* _lang;
     BOOL _currentWordHandled;
@@ -21,6 +22,7 @@
     __weak IBOutlet UITextField *_wordToBeSearched;
     __weak IBOutlet UIToolbar *_toolbar;
     __weak IBOutlet UILabel *_note;
+    __weak IBOutlet UIButton *_showMoreNotes;
 }
 
 @property (weak, nonatomic) NSUserDefaults* prefs;
@@ -46,4 +48,7 @@
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item;
 
 - (void)incrementLookupOf:(NSString*)word;
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender;
+
 @end

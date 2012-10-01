@@ -74,8 +74,8 @@ chrome.extension.onConnect.addListener(function(port) {
       //console.log(text.unescapeHtml());
       console.log("Time to get body text=", new Date().getTime() - start);
       console.log("body text length=", text.length);
-     // console.log("text="+text);
-      if (text.length > 50000) { 
+      //console.log("text="+text);
+      if (text.length > 70000) { 
         console.log("Don't search for the sentences because this page is too large");
       } else {
         start = new Date().getTime();
