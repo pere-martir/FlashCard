@@ -32,9 +32,6 @@
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
-//- (IBAction)search:(id)sender;
-//- (IBAction)didEndOnExit:(id)sender;
-
 - (void)showEnglishTranslation:(BOOL)incrementLookup;
 - (void)showDefinition;
 - (void)showWikipedia;

@@ -32,7 +32,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" id="yqo-RI-2e5">
-                                <rect key="frame" x="0.0" y="152" width="863" height="547"/>
+                                <rect key="frame" x="0.0" y="44" width="863" height="547"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <dataDetectorType key="dataDetectorTypes"/>
@@ -70,16 +70,15 @@
                                 </items>
                             </toolbar>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="wordWrap" numberOfLines="0" minimumFontSize="17" id="0cR-C9-aNn">
-                                <rect key="frame" x="8" y="51" width="655" height="93"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="7" y="599" width="655" height="93"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <string key="text">Rossetto, chiavi di casa e carta di credito: a una donna non serve molto di più per affrontare una serata. E a una borsa non serve essere voluminosa per contenerlo. Anzi, meglio piccola e preziosa, come dimostra da 34 anni la mitica Knot (che prende il nome dal motivo della chiusura ovvero un piccolo nodo), pochette iconica firmata Bottega Veneta.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" id="gsl-mr-mAd">
-                                <rect key="frame" x="668" y="82" width="29" height="31"/>
+                                <rect key="frame" x="667" y="631" width="29" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal">
@@ -91,7 +90,7 @@
                                 </state>
                                 <connections>
                                     <segue destination="OQN-De-KgF" kind="popover" identifier="ShowNotes" popoverAnchorView="gsl-mr-mAd" id="mjO-DH-TvW">
-                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                        <popoverArrowDirection key="popoverArrowDirection" down="YES"/>
                                     </segue>
                                 </connections>
                             </button>
@@ -134,13 +133,13 @@
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" minimumFontSize="10" id="1To-MY-8tF">
                                             <rect key="frame" x="11" y="6" width="517" height="26"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" name="Georgia-Bold" family="Georgia" pointSize="20"/>
+                                            <fontDescription key="fontDescription" name="Georgia-Bold" family="Georgia" pointSize="18"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Paragraph" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" minimumFontSize="12" id="yJf-sD-ylM">
-                                            <rect key="frame" x="31" y="40" width="497" height="80"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                            <rect key="frame" x="36" y="40" width="497" height="80"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -159,7 +158,7 @@
                             <outlet property="delegate" destination="OQN-De-KgF" id="pju-T8-3OJ"/>
                         </connections>
                     </tableView>
-                    <value key="contentSizeForViewInPopover" type="size" width="500" height="400"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="550" height="300"/>
                     <connections>
                         <outlet property="searchDisplayController" destination="wy2-4A-I9I" id="7Ht-Bz-Lzb"/>
                     </connections>

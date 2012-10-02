@@ -44,6 +44,7 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    _noteHeights = [[NSMutableDictionary alloc] init];
 }
 
 - (void)viewDidUnload
@@ -97,12 +98,40 @@
     
     NoteCell *cell = (NoteCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
+    CGFloat noteHeight = [[_noteHeights objectForKey:[NSNumber numberWithInt:indexPath.row]] floatValue];
     Note *note = (Note *)[self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.titleLabel.text = note.title;
     cell.sentenceLabel.text = note.note;
+    CGRect maxFrame = CGRectMake(cell.sentenceLabel.frame.origin.x, 
+                                 cell.sentenceLabel.frame.origin.y, 497, 0);
+    cell.sentenceLabel.frame = maxFrame;
     [cell.sentenceLabel sizeToFit];
+    
+    if (CGRectGetHeight(cell.sentenceLabel.frame) > noteHeight) {
+        cell.sentenceLabel.frame = CGRectMake(cell.sentenceLabel.frame.origin.x, 
+                                              cell.sentenceLabel.frame.origin.y, 497, noteHeight);        
+    }
+    
     return cell;
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath 
+{    
+    Note *note = (Note *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    static NSString *CellIdentifier = @"NoteCell";
+    NoteCell *cell = (NoteCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    CGSize maxSize = CGSizeMake(497, 500);
+    CGSize textSize = [note.note sizeWithFont:cell.sentenceLabel.font constrainedToSize:maxSize 
+                                lineBreakMode:cell.sentenceLabel.lineBreakMode];
+    
+    [_noteHeights setObject:[NSNumber numberWithFloat:textSize.height] 
+                     forKey:[NSNumber numberWithInt:indexPath.row]];
+    
+    return cell.sentenceLabel.frame.origin.y + textSize.height + 10;
+}
+
 
 
 /*

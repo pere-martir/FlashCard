@@ -10,6 +10,7 @@
 
 @interface NotesViewController : UITableViewController<NSFetchedResultsControllerDelegate>
 {
+    NSMutableDictionary *_noteHeights;
 }
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
@@ -17,5 +18,6 @@
 @property (strong, nonatomic) NSString *entryObjectId; // show the notes of this entry
 
 //- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 
 @end

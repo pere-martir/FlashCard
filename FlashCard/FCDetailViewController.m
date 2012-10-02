@@ -179,11 +179,20 @@
         }
     }
     if ([notesArray count] == 0) {
+        _webView.frame = CGRectMake(_webView.frame.origin.x, _webView.frame.origin.y, 
+                                    _webView.frame.size.width, 655);
         _note.text = @"";
+        _note.hidden = YES;
         _showMoreNotes.hidden = YES;
     } else {
+        _webView.frame = CGRectMake(_webView.frame.origin.x, _webView.frame.origin.y, 
+                                    _webView.frame.size.width, 547);
+        _note.hidden = NO;
+        CGRect maxFrame = CGRectMake(_note.frame.origin.x, _note.frame.origin.y, 655, 93);
+        _note.frame = maxFrame;
         _note.text = [notesArray componentsJoinedByString:@"\n"];
         [_note sizeToFit];
+        if (CGRectGetHeight(_note.frame) > 93) _note.frame = maxFrame;
         _showMoreNotes.hidden = NO;
     }
 }
@@ -203,24 +212,6 @@
     }
 }
 
-/*
-
-// REFACTORING: merge these two functions
-- (IBAction)search:(id)sender {
-    _currentTab = 0;
-    _tabbar.selectedItem = _tabBarItemWR;
-    _word = [_wordToBeSearched.text copy];
-    [self showEnglishTranslation:YES];
-}
-
-- (IBAction)didEndOnExit:(id)sender {
-    [sender resignFirstResponder];
-    _currentTab = 0;
-    _tabbar.selectedItem = _tabBarItemWR;
-    _word = [_wordToBeSearched.text copy];
-    [self showEnglishTranslation:YES];
-}
-*/
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [searchBar resignFirstResponder];
