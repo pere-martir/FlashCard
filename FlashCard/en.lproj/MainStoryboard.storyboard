@@ -86,12 +86,12 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="clip" numberOfLines="6" minimumFontSize="17" id="0cR-C9-aNn">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="wordWrap" numberOfLines="0" minimumFontSize="17" id="0cR-C9-aNn">
                                 <rect key="frame" x="8" y="51" width="655" height="93"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">Rossetto, chiavi di casa e carta di credito: a una donna non serve molto di più per affrontare una serata. E a una borsa non serve essere voluminosa per contenerlo. Anzi, meglio piccola e preziosa, come dimostra da 34 anni la mitica Knot (che prende il nome dal motivo della chiusura ovvero un piccolo nodo), pochette iconica firmata Bottega Veneta.</string>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="19"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -474,6 +474,57 @@
     <resources>
         <image name="icon_settings.png" width="30" height="30"/>
     </resources>
+    <classes>
+        <class className="ConfigViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ConfigViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="done:"/>
+                <relationship kind="outlet" name="groupedBy" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="hideKnownWords" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="lang" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FCDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FCDetailViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="didEndOnExit:"/>
+                <relationship kind="action" name="search:"/>
+                <relationship kind="outlet" name="_note" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="_showMoreNotes" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_tabBarItemWR" candidateClass="UITabBarItem"/>
+                <relationship kind="outlet" name="_tabbar" candidateClass="UITabBar"/>
+                <relationship kind="outlet" name="_toolbar" candidateClass="UIToolbar"/>
+                <relationship kind="outlet" name="_wordToBeSearched" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
+            </relationships>
+        </class>
+        <class className="FCMasterViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FCMasterViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="reload:"/>
+                <relationship kind="outlet" name="_lastUpdatedAt" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FCSplitViewController" superclassName="UISplitViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FCSplitViewController.h"/>
+        </class>
+        <class className="LanguageViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LanguageViewController.h"/>
+        </class>
+        <class className="NoteCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NoteCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="sentenceLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="NotesViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NotesViewController.h"/>
+        </class>
+        <class className="SDTableView" superclassName="UITableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SDTableView.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

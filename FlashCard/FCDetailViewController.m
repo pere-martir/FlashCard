@@ -176,8 +176,14 @@
             [notesArray addObject:n];
         }
     }
-    _note.text = [notesArray componentsJoinedByString:@"\n"];
-    _showMoreNotes.hidden = NO;
+    if ([notesArray count] == 0) {
+        _note.text = @"";
+        _showMoreNotes.hidden = YES;
+    } else {
+        _note.text = [notesArray componentsJoinedByString:@"\n"];
+        [_note sizeToFit];
+        _showMoreNotes.hidden = NO;
+    }
 }
 
 - (void)showDetailOfWord:(NSString*)word ofLanguage:(NSString*)lang 
