@@ -46,6 +46,7 @@
     // http://winxblog.com/2009/02/iphone-uiwebview-estimated-progress/
         
     self.webView.delegate = self;
+    _searchBar.delegate = self;
 }
 
 - (void)viewDidUnload
@@ -58,6 +59,7 @@
     _toolbar = nil;
     _note = nil;
     _showMoreNotes = nil;
+    _searchBar = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -201,6 +203,8 @@
     }
 }
 
+/*
+
 // REFACTORING: merge these two functions
 - (IBAction)search:(id)sender {
     _currentTab = 0;
@@ -214,6 +218,15 @@
     _currentTab = 0;
     _tabbar.selectedItem = _tabBarItemWR;
     _word = [_wordToBeSearched.text copy];
+    [self showEnglishTranslation:YES];
+}
+*/
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+    _currentTab = 0;
+    _tabbar.selectedItem = _tabBarItemWR;
+    _word = [searchBar.text copy];
     [self showEnglishTranslation:YES];
 }
 
@@ -301,7 +314,14 @@
                                    entityForName:@"Entry" 
                                    inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"word CONTAINS %@ AND lang==%@", word, _lang];
+    NSString *comma = @",";
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:
+                              @"(word LIKE[c] %@ OR word BEGINSWITH[c] %@ OR \
+                                 word ENDSWITH[c] %@ OR word CONTAINS[c] %@) AND lang==%@", 
+                              word, 
+                              [word stringByAppendingString:@","], 
+                              [comma stringByAppendingString:word],
+                              [[comma stringByAppendingString:word] stringByAppendingString:comma], _lang];
     [fetchRequest setPredicate:predicate];
     NSError *error = nil;
     NSArray *result = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];

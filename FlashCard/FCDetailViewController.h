@@ -10,7 +10,8 @@
 
 @class Entry;
 
-@interface FCDetailViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate, UITabBarDelegate> {
+@interface FCDetailViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate, UITabBarDelegate,
+                                                      UISearchBarDelegate> {
     int _currentTab;
     NSString* _entryObjectId;
     NSString* _word;
@@ -23,6 +24,7 @@
     __weak IBOutlet UIToolbar *_toolbar;
     __weak IBOutlet UILabel *_note;
     __weak IBOutlet UIButton *_showMoreNotes;
+    __weak IBOutlet UISearchBar *_searchBar;
 }
 
 @property (weak, nonatomic) NSUserDefaults* prefs;
@@ -30,8 +32,8 @@
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
-- (IBAction)search:(id)sender;
-- (IBAction)didEndOnExit:(id)sender;
+//- (IBAction)search:(id)sender;
+//- (IBAction)didEndOnExit:(id)sender;
 
 - (void)showEnglishTranslation:(BOOL)incrementLookup;
 - (void)showDefinition;

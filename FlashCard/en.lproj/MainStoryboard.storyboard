@@ -56,33 +56,16 @@
                                 <rect key="frame" x="0.0" y="0.0" width="703" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <barButtonItem style="plain" id="Ie1-S6-vNB">
-                                        <textField key="customView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Type here to look up a word ..." minimumFontSize="17" id="YAB-1R-k6N">
-                                            <rect key="frame" x="12" y="7" width="454" height="31"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <barButtonItem style="plain" id="WBR-fG-MIa">
+                                        <searchBar key="customView" contentMode="redraw" barStyle="blackOpaque" placeholder="Search WordReference" id="Ydx-3B-ohm">
+                                            <rect key="frame" x="12" y="0.0" width="682" height="44"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                             <textInputTraits key="textInputTraits"/>
-                                            <connections>
-                                                <action selector="didEndOnExit:" destination="4" eventType="editingDidEndOnExit" id="4Ov-bC-aA2"/>
-                                            </connections>
-                                        </textField>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" id="nPE-wL-ge1">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="jOV-tZ-qUU">
-                                            <rect key="frame" x="476" y="7" width="85" height="31"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" title="Search">
-                                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <state key="highlighted">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="search:" destination="4" eventType="touchUpInside" id="vPL-ZG-o8A"/>
-                                            </connections>
-                                        </button>
+                                            <scopeButtonTitles>
+                                                <string>Title</string>
+                                                <string>Title</string>
+                                            </scopeButtonTitles>
+                                        </searchBar>
                                     </barButtonItem>
                                 </items>
                             </toolbar>
@@ -120,11 +103,11 @@
                     <navigationItem key="navigationItem" title="Title" id="wN4-Pf-8mQ"/>
                     <connections>
                         <outlet property="_note" destination="0cR-C9-aNn" id="K8d-Mz-fPL"/>
+                        <outlet property="_searchBar" destination="Ydx-3B-ohm" id="kfp-lz-Lfm"/>
                         <outlet property="_showMoreNotes" destination="gsl-mr-mAd" id="5uA-6d-Gjz"/>
                         <outlet property="_tabBarItemWR" destination="Gtw-RP-EIe" id="vcE-EL-wp0"/>
                         <outlet property="_tabbar" destination="nje-qf-LQq" id="yrr-Xz-Sai"/>
                         <outlet property="_toolbar" destination="Njw-hg-UQc" id="wgi-us-e93"/>
-                        <outlet property="_wordToBeSearched" destination="YAB-1R-k6N" id="hNq-zE-hgG"/>
                         <outlet property="webView" destination="yqo-RI-2e5" id="ImF-ze-oEx"/>
                     </connections>
                 </viewController>
@@ -487,9 +470,8 @@
         <class className="FCDetailViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FCDetailViewController.h"/>
             <relationships>
-                <relationship kind="action" name="didEndOnExit:"/>
-                <relationship kind="action" name="search:"/>
                 <relationship kind="outlet" name="_note" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="_searchBar" candidateClass="UISearchBar"/>
                 <relationship kind="outlet" name="_showMoreNotes" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="_tabBarItemWR" candidateClass="UITabBarItem"/>
                 <relationship kind="outlet" name="_tabbar" candidateClass="UITabBar"/>
