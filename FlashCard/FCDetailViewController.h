@@ -13,7 +13,6 @@
 @interface FCDetailViewController : UIViewController <UISplitViewControllerDelegate, UIWebViewDelegate, UITabBarDelegate,
                                                       UISearchBarDelegate> {
     int _currentTab;
-    NSString* _entryObjectId;
     NSString* _word;
     NSString* _lang;
     BOOL _currentWordHandled;
@@ -28,9 +27,9 @@
 }
 
 @property (weak, nonatomic) NSUserDefaults* prefs;
-
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (strong, nonatomic) NSString* entryObjectId;
 
 - (void)showEnglishTranslation:(BOOL)incrementLookup;
 - (void)showDefinition;

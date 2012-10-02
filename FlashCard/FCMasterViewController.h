@@ -34,11 +34,12 @@
 
 - (void)syncWithWebService;
 - (void)showLastUpdate;
+- (void)selectFirstRow;
 
 - (UITableViewCellEditingStyle)tableView:(UITableView*)tableView 
            editingStyleForRowAtIndexPath:(NSIndexPath*)indexPath;
 
--(NSString *)tableView:(UITableView *)tableView 
+- (NSString *)tableView:(UITableView *)tableView 
 titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath;
 
 @end

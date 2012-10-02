@@ -423,7 +423,22 @@ titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     [self.tableView endUpdates];
-    //[self.tableView reloadData];
+    
+    // Automatically select the latest word in "Today" section. 
+    // This may not be desired when the sorting order of the table changes.
+    [self selectFirstRow];
+}
+
+- (void)selectFirstRow
+{
+    NSIndexPath *firstIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    [self.tableView selectRowAtIndexPath:firstIndexPath animated:NO 
+                          scrollPosition:UITableViewScrollPositionNone];
+    
+    if (self.detailViewController.entryObjectId == nil) {   
+        Entry *entry = (Entry *)[[self fetchedResultsController] objectAtIndexPath:firstIndexPath];
+        [self.detailViewController showEntry:entry]; 
+    }
 }
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
@@ -445,7 +460,6 @@ titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
     } else {
         cell.textLabel.textColor = [UIColor blackColor];
     }
-    //cell.textLabel.numberOfLines = 0;
     
     NSInteger lookups = [entry.lookups intValue];
     
@@ -485,9 +499,11 @@ titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)willReloadData {}
 
+// When the table view has finished filling data
 - (void)didReloadData 
 {
     if ([PFUser currentUser]) [self syncWithWebService];
+    [self selectFirstRow];
 }
 
 - (void)willLayoutSubviews {}

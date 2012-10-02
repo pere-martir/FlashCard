@@ -102,8 +102,8 @@
     Note *note = (Note *)[self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.titleLabel.text = note.title;
     cell.sentenceLabel.text = note.note;
-    CGRect maxFrame = CGRectMake(cell.sentenceLabel.frame.origin.x, 
-                                 cell.sentenceLabel.frame.origin.y, 497, 0);
+    CGRect maxFrame = CGRectMake(cell.sentenceLabel.frame.origin.x, cell.sentenceLabel.frame.origin.y, 
+                                 430, 0);
     cell.sentenceLabel.frame = maxFrame;
     [cell.sentenceLabel sizeToFit];
     
@@ -122,7 +122,7 @@
     static NSString *CellIdentifier = @"NoteCell";
     NoteCell *cell = (NoteCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    CGSize maxSize = CGSizeMake(497, 500);
+    CGSize maxSize = CGSizeMake(430, 500);
     CGSize textSize = [note.note sizeWithFont:cell.sentenceLabel.font constrainedToSize:maxSize 
                                 lineBreakMode:cell.sentenceLabel.lineBreakMode];
     
@@ -177,13 +177,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    Note *note = (Note *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+    if ([note.url length] > 0)
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString: note.url]];    
 }
 
 

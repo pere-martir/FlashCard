@@ -21,6 +21,7 @@
 @synthesize masterPopoverController = _masterPopoverController;
 @synthesize prefs = _prefs;
 @synthesize managedObjectContext = _managedObjectContext;
+@synthesize entryObjectId = _entryObjectId;
 
 #pragma mark - Managing the detail item
 
@@ -114,7 +115,7 @@
 {
     // firstWord is used to create the URL of the page of WordReference
     NSString* firstWord = [[entry.word componentsSeparatedByString:@","] objectAtIndex:0];
-    _entryObjectId = entry.objectId;
+    self.entryObjectId = entry.objectId;
     [self showDetailOfWord:firstWord ofLanguage:entry.lang andIncrementLookups:YES];
     
     NSSet *notes = entry.notes;
@@ -388,8 +389,8 @@
         NotesViewController *controller = (NotesViewController *) segue.destinationViewController;
         //controller.delegate = self;
         controller.managedObjectContext = self.managedObjectContext;
-        assert(_entryObjectId != nil);
-        controller.entryObjectId = _entryObjectId;
+        assert(self.entryObjectId != nil);
+        controller.entryObjectId = self.entryObjectId;
     }
 }
 
