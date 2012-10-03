@@ -305,7 +305,8 @@
     
     if (_currentTab == 0) {
         // scroll the view so that the advertisement and the word list on the left hand side are not visible.
-        [webView stringByEvaluatingJavaScriptFromString:@"document. body.style.zoom = 1.7; window.scrollBy(70, 80);"];
+        // window.scrollBy(70, 80);
+        [webView stringByEvaluatingJavaScriptFromString:@"document. body.style.zoom = 1.4;"];
     }
     
     if (_incrementLookupsAfterLoaded) {

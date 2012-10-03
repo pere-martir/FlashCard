@@ -464,8 +464,12 @@ titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
     NSInteger lookups = [entry.lookups intValue];
     
     // This is only for debugging
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", lookups];
-    
+    if (lookups > 1) {
+        if (lookups == 2) cell.detailTextLabel.text = @"*";
+        else if (lookups == 3) cell.detailTextLabel.text = @"**";
+        else cell.detailTextLabel.text = @"***";
+    } else
+        cell.detailTextLabel.text = @"";
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
