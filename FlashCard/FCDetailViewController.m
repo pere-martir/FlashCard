@@ -303,9 +303,10 @@
     }
 #endif
     
-    // 1.3 is good zoom scale for wordreference.com: the left blank band disappear
-    // and the advertisment in the right band side also.
-    [webView stringByEvaluatingJavaScriptFromString:@"document. body.style.zoom = 1.3;"];
+    if (_currentTab == 0) {
+        // scroll the view so that the advertisement and the word list on the left hand side are not visible.
+        [webView stringByEvaluatingJavaScriptFromString:@"document. body.style.zoom = 1.7; window.scrollBy(70, 80);"];
+    }
     
     if (_incrementLookupsAfterLoaded) {
         NSString *html = [webView stringByEvaluatingJavaScriptFromString: @"document.body.innerHTML"];
