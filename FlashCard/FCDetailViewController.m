@@ -92,6 +92,11 @@
     return YES;
 }
 
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self layoutDetailView];
+}
+
 #pragma mark - Split view
 
 - (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController
@@ -179,22 +184,46 @@
             [notesArray addObject:n];
         }
     }
-    if ([notesArray count] == 0) {
-        _webView.frame = CGRectMake(_webView.frame.origin.x, _webView.frame.origin.y, 
-                                    _webView.frame.size.width, 655);
+    
+    if ([notesArray count] == 0)
         _note.text = @"";
+    else
+        _note.text = [notesArray componentsJoinedByString:@" / "];
+    
+    [self layoutDetailView];
+}
+
+- (void)layoutDetailView
+{
+    if ([_note.text length] == 0) {
         _note.hidden = YES;
         _showMoreNotes.hidden = YES;
-    } else {
         _webView.frame = CGRectMake(_webView.frame.origin.x, _webView.frame.origin.y, 
-                                    _webView.frame.size.width, 547);
+                                    _webView.frame.size.width, 
+                                    CGRectGetMinY(_tabbar.frame) - CGRectGetMinY(_webView.frame));
+    } else {
+        const CGFloat MARGIN = 5;
         _note.hidden = NO;
-        CGRect maxFrame = CGRectMake(_note.frame.origin.x, _note.frame.origin.y, 655, 93);
-        _note.frame = maxFrame;
-        _note.text = [notesArray componentsJoinedByString:@"\n"];
+        const CGRect MAX_FRAME = CGRectMake(0, 0, 
+                                            CGRectGetWidth(_tabbar.frame) - CGRectGetWidth(_showMoreNotes.frame) - MARGIN * 3, 
+                                            93);
+        _note.frame = CGRectMake(0, 0, CGRectGetWidth(MAX_FRAME), 0);
         [_note sizeToFit];
-        if (CGRectGetHeight(_note.frame) > 93) _note.frame = maxFrame;
+        if (CGRectGetHeight(_note.frame) > CGRectGetHeight(MAX_FRAME)) _note.frame = MAX_FRAME;
+        
+        // Align the bottom of the label to the top of the tabbar
+        _note.frame = CGRectMake(_tabbar.frame.origin.x + MARGIN, 
+                                 _tabbar.frame.origin.y - MARGIN - CGRectGetHeight(_note.frame) - MARGIN,
+                                 CGRectGetWidth(_note.frame), CGRectGetHeight(_note.frame));
+        
+        _showMoreNotes.frame = CGRectMake(CGRectGetMaxX(_tabbar.frame) - MARGIN - CGRectGetWidth(_showMoreNotes.frame),
+                                          CGRectGetMidY(_note.frame) - CGRectGetWidth(_showMoreNotes.frame) / 2,
+                                          CGRectGetWidth(_showMoreNotes.frame), CGRectGetHeight(_showMoreNotes.frame));
         _showMoreNotes.hidden = NO;
+        
+        _webView.frame = CGRectMake(_webView.frame.origin.x, _webView.frame.origin.y, 
+                                    _webView.frame.size.width, 
+                                    CGRectGetMinY(_note.frame) - CGRectGetMinY(_webView.frame) - MARGIN);
     }
 }
 

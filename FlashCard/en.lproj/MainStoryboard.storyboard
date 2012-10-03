@@ -33,12 +33,12 @@
                         <subviews>
                             <webView contentMode="scaleToFill" id="yqo-RI-2e5">
                                 <rect key="frame" x="0.0" y="44" width="863" height="547"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <dataDetectorType key="dataDetectorTypes"/>
                             </webView>
                             <tabBar contentMode="scaleToFill" id="nje-qf-LQq">
-                                <rect key="frame" x="-9" y="699" width="721" height="49"/>
+                                <rect key="frame" x="0.0" y="699" width="703" height="49"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <items>
@@ -71,7 +71,7 @@
                             </toolbar>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="wordWrap" numberOfLines="0" minimumFontSize="16" id="0cR-C9-aNn">
                                 <rect key="frame" x="7" y="599" width="655" height="93"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <string key="text">Rossetto, chiavi di casa e carta di credito: a una donna non serve molto di più per affrontare una serata. E a una borsa non serve essere voluminosa per contenerlo. Anzi, meglio piccola e preziosa, come dimostra da 34 anni la mitica Knot (che prende il nome dal motivo della chiusura ovvero un piccolo nodo), pochette iconica firmata Bottega Veneta.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -79,7 +79,7 @@
                             </label>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" id="gsl-mr-mAd">
                                 <rect key="frame" x="667" y="631" width="29" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -456,6 +456,56 @@
     <resources>
         <image name="icon_settings.png" width="30" height="30"/>
     </resources>
+    <classes>
+        <class className="ConfigViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ConfigViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="done:"/>
+                <relationship kind="outlet" name="groupedBy" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="hideKnownWords" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="lang" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FCDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FCDetailViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="_note" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="_searchBar" candidateClass="UISearchBar"/>
+                <relationship kind="outlet" name="_showMoreNotes" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_tabBarItemWR" candidateClass="UITabBarItem"/>
+                <relationship kind="outlet" name="_tabbar" candidateClass="UITabBar"/>
+                <relationship kind="outlet" name="_toolbar" candidateClass="UIToolbar"/>
+                <relationship kind="outlet" name="_wordToBeSearched" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
+            </relationships>
+        </class>
+        <class className="FCMasterViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FCMasterViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="reload:"/>
+                <relationship kind="outlet" name="_lastUpdatedAt" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FCSplitViewController" superclassName="UISplitViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FCSplitViewController.h"/>
+        </class>
+        <class className="LanguageViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LanguageViewController.h"/>
+        </class>
+        <class className="NoteCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NoteCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="sentenceLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="NotesViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NotesViewController.h"/>
+        </class>
+        <class className="SDTableView" superclassName="UITableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SDTableView.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
