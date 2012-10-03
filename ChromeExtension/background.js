@@ -152,11 +152,46 @@ function find_matched_sentences(entryObjectId, substrings, new_word) {
   for (var t in tabs) {
     var tab_id = tabs[t].id;
     console.log("t=" + t + " tab_id=" + tab_id + " url=" + tabs[t].url);
-    var port = chrome.tabs.connect(tab_id, {name:'search_sentences'});
+    var port = chrome.tabs.connect(tab_id, {name:'get_text'});
     port.onMessage.addListener(function() {
       return function(response) { 
-        for (var s in response.sentences) {
-          if (response.sentences.hasOwnProperty(s)) {
+  
+        var sentences = {};
+        start = new Date().getTime();
+        var all_sentences_in_lowercases = {}
+        for (var w=0; w < substrings. length; ++ w) {
+          var word = substrings[w];
+          console.assert(word.length > 0);
+          // \u00E0-\u00FC matches the letter with the accent symbol
+          var LETTER = 'a-z\u00E0-\u00FC'; 
+          var L  = '[' + LETTER + ']';
+          var NL  = '[^' + LETTER + ']';
+          // These quotation marks are used a lot in Italian 
+          var LEFT_QUOTE = '\u00AB'; // left_pointing_double_angle_quotation_mark
+          var RIGHT_QUOTE = '\u00BB'; // right_pointing_double_angle_quotation_mark
+          var RIGHT_SINGLE_QUOTE = '\u2019'; // right single quotation mark (italian)
+          var LPS = '[' + LETTER + LEFT_QUOTE + RIGHT_QUOTE + RIGHT_SINGLE_QUOTE + ' :;\(\)"\',0-9\-]'; // letter, punctions, space, and ' 
+          var E  = '[\.\?!]'; // end of sentence, !
+          var regexp = new RegExp(E + '*(' + LPS + '*' + NL + '+' + word + NL + '+' + LPS + '*' + E + '?)', 'ig');
+          var match;
+          while (match = regexp.exec(response.text)) {
+            var sent = match[1].replace( /^\s+|\s+$/g, ''); // trim spaces
+            sent = sent.replace(/\s+/g, ' '); // replace multiple space with only one
+            // This check is necessary since in the same document there may 
+            // be many similar texts.
+            var sentence_in_lowercase = sent.toLowerCase();
+            if (!(sentence_in_lowercase in all_sentences_in_lowercases)) {
+              all_sentences_in_lowercases[sentence_in_lowercase] = true;
+              sentences[sent] = word;
+              console.log('match by word "' + word + '" in sentence length (' + sent.length + ') "'+ sent + '"');
+            }
+          }
+        }
+        console.log("Time to run regexp=", new Date().getTime() - start);
+        //port.postMessage({'sentences': sentences, 'url': document.URL, 'title': document.title});
+
+        for (var s in sentences) {
+          if (sentences.hasOwnProperty(s)) {
             var Note = Parse.Object.extend("Note");
 
             // Always query for the existing note because even if
@@ -172,7 +207,7 @@ function find_matched_sentences(entryObjectId, substrings, new_word) {
                     var note = new Note();
                     note.set("entryObjectId", entryObjectId);
                     note.set('note', s);
-                    note.set('word', response.sentences[s]);
+                    note.set('word', sentences[s]);
                     note.set('url', response.url);
                     note.set('title', response.title);
                     note.save();

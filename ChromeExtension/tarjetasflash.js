@@ -51,9 +51,9 @@ String.prototype.unescapeHtml = function () {
 
 // Search the text in the current tab containing a word and return it to the background page
 chrome.extension.onConnect.addListener(function(port) {
-  if (port.name != 'search_sentences') return;
+  if (port.name != 'get_text') return;
   port.onMessage.addListener(function(request) {
-    var sentences = {};
+    //var sentences = {};
     if (document.URL.indexOf('wordreference.com') == -1 &&
         document.URL.indexOf('.google.') == -1 && // Google Reader returns very strange results
         0 == document.URL.indexOf('http')) {
@@ -75,6 +75,8 @@ chrome.extension.onConnect.addListener(function(port) {
       console.log("Time to get body text=", new Date().getTime() - start);
       console.log("body text length=", text.length);
       //console.log("text="+text);
+
+      /*
       if (text.length > 70000) { 
         console.log("Don't search for the sentences because this page is too large");
       } else {
@@ -111,6 +113,8 @@ chrome.extension.onConnect.addListener(function(port) {
         console.log("Time to run regexp=", new Date().getTime() - start);
         port.postMessage({'sentences': sentences, 'url': document.URL, 'title': document.title});
       }
+      */
+      port.postMessage({'text': text, 'url': document.URL, 'title': document.title});
     }
   });
 });
